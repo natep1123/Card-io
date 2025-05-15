@@ -26,13 +26,13 @@ export default function Home() {
       <div className="flex flex-col gap-4">
         <Link
           href="/workout"
-          className="bg-red font-bold rounded-md px-6 py-3 text-center"
+          className="bg-red font-semibold rounded-md px-6 py-3 text-center"
         >
           Workout
         </Link>
         <Link
           href="/about"
-          className="bg-green font-bold rounded-md px-6 py-3 text-center"
+          className="bg-green font-semibold rounded-md px-6 py-3 text-center"
         >
           How's It Work?
         </Link>

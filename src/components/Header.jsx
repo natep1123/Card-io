@@ -21,7 +21,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-slate border-b border-white sticky top-0 z-10 p-4">
+    <header className="bg-black border-b border-white sticky top-0 z-10 p-4">
       <div className="mx-auto max-w-7xl flex justify-between items-center">
         <Link href="/">
           <div className="flex items-center gap-3">
