@@ -70,7 +70,7 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <nav className="md:hidden bg-slate absolute top-full left-0 w-full z-10 border-b border-white">
+        <nav className="md:hidden bg-black absolute top-full left-0 w-full z-10 border-b border-white">
           <div className="flex flex-col gap-2 px-4 py-4">
             {pages.map((page) => (
               <Link

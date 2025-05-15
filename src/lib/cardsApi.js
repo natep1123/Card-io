@@ -14,18 +14,6 @@ export async function getShuffledDeck() {
   }
 }
 
-export async function drawCard(deckId) {
-  try {
-    const response = await axios.get(
-      `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error drawing card:", error);
-    throw error;
-  }
-}
-
 export async function getHalfShuffledDeck() {
   try {
     const deckId = await getShuffledDeck();
@@ -37,6 +25,18 @@ export async function getHalfShuffledDeck() {
     return { deckId, cards };
   } catch (error) {
     console.error("Error fetching half shuffled deck:", error);
+    throw error;
+  }
+}
+
+export async function drawCard(deckId) {
+  try {
+    const response = await axios.get(
+      `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error drawing card:", error);
     throw error;
   }
 }
