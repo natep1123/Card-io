@@ -1,33 +1,27 @@
-// This file contains the exercises for the card game.
+// This file contains the exercises for the workout generator.
 
-/* Each suit represents a muscle group:
-    Clubs: Push
-    Diamonds: Pull
-    Hearts: Legs
-    Spades: Core 
-*/
-
-const exercises = {
-  clubs: [
-    { name: "Pushups", unit: "reps" },
+// Array of exercises for each suit
+export const exercises = {
+  push: [
+    { name: "Standard Pushups", unit: "reps" },
     { name: "Decline Pushups", unit: "reps" },
     { name: "Diamond Pushups", unit: "reps" },
     { name: "Archer Pushups", unit: "reps" },
     { name: "Clap Pushups", unit: "reps" },
   ],
-  diamonds: [
+  pull: [
     { name: "Pull-Ups", unit: "reps" },
     { name: "Chin-Ups", unit: "reps" },
     { name: "Horizontal Rows", unit: "reps" },
     { name: "Archer Pullups", unit: "reps per side" },
   ],
-  hearts: [
+  legs: [
     { name: "Bodyweight Squats", unit: "reps" },
     { name: "Lunges", unit: "reps per leg" },
     { name: "Jump Squats", unit: "reps" },
     { name: "Reverse Lunges", unit: "reps per leg" },
   ],
-  spades: [
+  core: [
     { name: "Hanging Leg Raises", unit: "reps" },
     { name: "Russian Twists", unit: "reps per side" },
     { name: "Plank", unit: "seconds" },
@@ -35,24 +29,26 @@ const exercises = {
   ],
 };
 
+/* BELOW ARE POSSIBLE FUTURE ADDITIONS FOR DYNAMIC DIFFICULTY */
+
 // Beginner Exercises
 const beginner = {
-  clubs: [
+  push: [
     { name: "Pushups" },
     { name: "Wide Pushups" },
     { name: "Decline Pushups" },
   ],
-  diamonds: [
+  pull: [
     { name: "Doorframe Rows" },
     { name: "Negative Pull-Ups" },
     { name: "Towel Rows" },
   ],
-  hearts: [
+  legs: [
     { name: "Bodyweight Squats" },
     { name: "Lunges" },
     { name: "Calf Raises" },
   ],
-  spades: [
+  core: [
     { name: "Plank" },
     { name: "Bicycle Crunches" },
     { name: "Leg Raises" },
@@ -61,22 +57,22 @@ const beginner = {
 
 // Intermediate Exercises
 const intermediate = {
-  clubs: [
+  push: [
     { name: "Diamond Pushups" },
     { name: "Archer Pushups" },
     { name: "Pike Pushups" },
   ],
-  diamonds: [
+  pull: [
     { name: "Pull-Ups" },
     { name: "Chin-Ups" },
     { name: "Horizontal Rows" },
   ],
-  hearts: [
+  legs: [
     { name: "Jump Squats" },
     { name: "Split Squats" },
     { name: "Step-Ups" },
   ],
-  spades: [
+  core: [
     { name: "Side Plank" },
     { name: "Russian Twists" },
     { name: "Hanging Knee Raises" },
@@ -85,22 +81,22 @@ const intermediate = {
 
 // Advanced Exercises
 const advanced = {
-  clubs: [
+  push: [
     { name: "Clap Pushups" },
     { name: "One-Arm Pushups" },
     { name: "Handstand Pushups" },
   ],
-  diamonds: [
+  pull: [
     { name: "Weighted Pull-Ups" },
     { name: "Archer Rows" },
     { name: "Explosive Pull-Ups" },
   ],
-  hearts: [
+  legs: [
     { name: "Pistol Squats" },
     { name: "Bulgarian Split Squats" },
     { name: "Jump Lunges" },
   ],
-  spades: [
+  core: [
     { name: "Dragon Flag" },
     { name: "Hanging Leg Raises" },
     { name: "V-Ups" },

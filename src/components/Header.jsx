@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Pathname in case I want to add more logic (like user authentication)
+  // Pathname for highlighting the active link
   const pathname = usePathname();
   const pages = [
     { name: "Home", path: "/" },
@@ -15,6 +15,7 @@ export default function Header() {
     { name: "About", path: "/about" },
   ];
 
+  // Toggle function for the mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };

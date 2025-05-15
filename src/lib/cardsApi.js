@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getShuffledDeck() {
-  return axios
+  return await axios
     .get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
     .then((response) => {
       return response.data.deck_id;
