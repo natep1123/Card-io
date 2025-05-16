@@ -68,8 +68,10 @@ export default function WCard() {
     if (deckId) {
       try {
         const cardData = await drawCard(deckId);
-        console.log("Card Data:", cardData);
-        if (cardData.cards.length > 0) {
+        const remaining = cardData.remaining;
+        if (remaining === 0) setIsDeckEmpty(true);
+        const isCard = cardData.cards.length > 0;
+        if (isCard) {
           // Get a card, extract its value/suit and set a random tilt
           const card = cardData.cards[0];
           card.value = card.value.toLowerCase();
@@ -82,7 +84,7 @@ export default function WCard() {
           // Set states
           setCurrentExercise(exercise);
           setDrawnCards((prev) => [...prev, { ...card, tilt }]);
-          setCardsRemaining(cardData.remaining);
+          setCardsRemaining(remaining);
         } else {
           setWState("summary");
         }
@@ -92,52 +94,87 @@ export default function WCard() {
     }
   };
 
-  return (
-    <div className="flex flex-col items-center justify-between gap-4">
-      <h2 className="text-white">{formatClock(clock)}</h2>
-      <span className="text-gray">Cards Remaining: {cardsRemaining}</span>
+  // Function to handle ending workout early
+  const handleEnd = () => {
+    // Confirm if tapout
+    if (!isDeckEmpty) {
+      const confirmTapOut = window.confirm(
+        "No shame! Are you sure you want to tap out?"
+      );
+      if (!confirmTapOut) return;
+    }
+    setWState("summary");
+  };
 
-      {/* Card Pile */}
-      <div
-        onClick={handleDrawCard}
-        className="relative w-32 h-48 cursor-pointer my-4"
-      >
-        {/* Show 3 stacked back cards when no cards flipped */}
-        {isDeckFull ? (
-          <>
-            {[-5, 0, 5].map((angle, index) => (
-              <img
-                key={index}
-                src="https://deckofcardsapi.com/static/img/back.png"
-                alt="Back of Card"
-                className="absolute w-full h-full"
-                style={{ transform: `rotate(${angle}deg)` }}
-              />
-            ))}
-          </>
-        ) : (
-          <>
-            {drawnCards.map((card, index) => (
-              <img
-                key={`${card.code}-${index}`}
-                src={card.image}
-                alt={`${card.value} of ${card.suit}`}
-                className="absolute w-full h-full"
-                style={{ transform: `rotate(${card.tilt}deg)` }}
-              />
-            ))}
-          </>
+  return (
+    <div className="flex flex-col items-center gap-16 md:gap-8">
+      {/* Clock and Cards Remaining */}
+      <div className="flex flex-col items-center gap-2">
+        <h2 className="text-white">{formatClock(clock)}</h2>
+        <span className="text-gray">Cards Remaining: {cardsRemaining}</span>
+      </div>
+
+      {/* Card Pile and Exercise */}
+      <div className="flex flex-col items-center gap-8 md:gap-4">
+        {/* Card Pile */}
+        <div
+          onClick={handleDrawCard}
+          className="relative w-32 h-48 cursor-pointer"
+        >
+          {/* Show 3 stacked back cards when no cards flipped */}
+          {isDeckFull ? (
+            <>
+              {[-5, 0, 5].map((angle, index) => (
+                <img
+                  key={index}
+                  src="https://deckofcardsapi.com/static/img/back.png"
+                  alt="Back of Card"
+                  className="absolute w-full h-full"
+                  style={{ transform: `rotate(${angle}deg)` }}
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              {drawnCards.map((card, index) => (
+                <img
+                  key={`${card.code}-${index}`}
+                  src={card.image}
+                  alt={`${card.value} of ${card.suit}`}
+                  className="absolute w-full h-full"
+                  style={{ transform: `rotate(${card.tilt}deg)` }}
+                />
+              ))}
+            </>
+          )}
+        </div>
+
+        {/* Current Exercise */}
+        {currentExercise && (
+          <div className="w-full bg-gray-800 p-4 rounded-lg text-white text-center font-semibold">
+            <h3 className="text-lg">{currentExercise.name}</h3>
+            <span>
+              {currentExercise.value} {currentExercise.unit}
+            </span>
+          </div>
         )}
       </div>
 
-      {/* Current Exercise */}
-      {currentExercise && (
-        <div className="bg-gray-800 p-4 rounded-lg text-white text-center font-semibold">
-          <h3 className="text-lg">{currentExercise.name}</h3>
-          <span>
-            {currentExercise.value} {currentExercise.unit}
-          </span>
-        </div>
+      {/* Button Options */}
+      {isDeckEmpty ? (
+        <button
+          onClick={handleEnd}
+          className="px-4 py-2 bg-green rounded-lg cursor-pointer"
+        >
+          Finish
+        </button>
+      ) : isDeckFull ? null : (
+        <button
+          onClick={handleEnd}
+          className="px-4 py-2 bg-red rounded-lg cursor-pointer"
+        >
+          Tap Out
+        </button>
       )}
     </div>
   );
