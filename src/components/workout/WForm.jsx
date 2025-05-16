@@ -34,11 +34,13 @@ export default function WorkoutForm() {
               Half Deck
             </option>
           </select>
+        </div>
+        <div className="flex flex-col items-center gap-2 w-full">
           <label htmlFor="difficulty" className="text-white font-semibold">
             Difficulty:
           </label>
           <select
-            id="diffuculty"
+            id="difficulty"
             name="difficulty"
             className="w-full p-2 rounded-md bg-slate text-white cursor-pointer"
           >

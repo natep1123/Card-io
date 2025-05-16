@@ -8,10 +8,14 @@ import { getExercises, getExerciseByCard } from "@/lib/exercisesLogic";
 import { getFullDeck, getHalfDeck, drawCard } from "@/lib/cardsApi";
 
 export default function WCard() {
-  const { deckId, setDeckId, exercises, setExercises, deckSize } =
+  const { deckId, setDeckId, exercises, setExercises, setWState, deckSize } =
     useWorkoutContext();
   const [clock, setClock] = useState(0);
-  const [cardsFlipped, setCardsFlipped] = useState(0);
+  const [cardsRemaining, setCardsRemaining] = useState(
+    deckSize === "half" ? 26 : 52
+  );
+  const [isDeckFull, setIsDeckFull] = useState(true);
+  const [isDeckEmpty, setIsDeckEmpty] = useState(false);
   const [drawnCards, setDrawnCards] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
 
@@ -31,7 +35,6 @@ export default function WCard() {
         exercisesRes = getExercises();
         setDeckId(deckIdRes);
         setExercises(exercisesRes);
-        setCardsFlipped(0);
       } catch (error) {
         console.error("Error fetching deck:", error);
       }
@@ -60,9 +63,12 @@ export default function WCard() {
 
   // Function to handle drawing a card
   const handleDrawCard = async () => {
+    if (isDeckFull) setIsDeckFull(false);
+
     if (deckId) {
       try {
         const cardData = await drawCard(deckId);
+        console.log("Card Data:", cardData);
         if (cardData.cards.length > 0) {
           // Get a card, extract its value/suit and set a random tilt
           const card = cardData.cards[0];
@@ -76,9 +82,9 @@ export default function WCard() {
           // Set states
           setCurrentExercise(exercise);
           setDrawnCards((prev) => [...prev, { ...card, tilt }]);
-          setCardsFlipped((prev) => prev + 1);
+          setCardsRemaining(cardData.remaining);
         } else {
-          console.log("No more cards left in the deck.");
+          setWState("summary");
         }
       } catch (error) {
         console.error("Error drawing card:", error);
@@ -89,10 +95,7 @@ export default function WCard() {
   return (
     <div className="flex flex-col items-center justify-between gap-4">
       <h2 className="text-white">{formatClock(clock)}</h2>
-      <span className="text-gray">
-        Cards Remaining:{" "}
-        {deckSize === "full" ? 52 - cardsFlipped : 26 - cardsFlipped}
-      </span>
+      <span className="text-gray">Cards Remaining: {cardsRemaining}</span>
 
       {/* Card Pile */}
       <div
@@ -100,7 +103,7 @@ export default function WCard() {
         className="relative w-32 h-48 cursor-pointer my-4"
       >
         {/* Show 3 stacked back cards when no cards flipped */}
-        {cardsFlipped === 0 ? (
+        {isDeckFull ? (
           <>
             {[-5, 0, 5].map((angle, index) => (
               <img
@@ -129,8 +132,8 @@ export default function WCard() {
 
       {/* Current Exercise */}
       {currentExercise && (
-        <div className="bg-gray-800 p-4 rounded-lg text-white text-center">
-          <h3 className="text-lg font-semibold">{currentExercise.name}</h3>
+        <div className="bg-gray-800 p-4 rounded-lg text-white text-center font-semibold">
+          <h3 className="text-lg">{currentExercise.name}</h3>
           <span>
             {currentExercise.value} {currentExercise.unit}
           </span>
