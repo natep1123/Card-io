@@ -1,7 +1,7 @@
 // This file contains the exercises for the workout generator.
 
 // Array of exercises for each suit
-export const exercises = {
+export const exercisesByGroup = {
   push: [
     { name: "Standard Pushups", unit: "reps" },
     { name: "Decline Pushups", unit: "reps" },
@@ -27,6 +27,19 @@ export const exercises = {
     { name: "Plank", unit: "seconds" },
     { name: "Side Plank", unit: "seconds per side" },
   ],
+};
+
+export const timeChallenges = {
+  challenges: [
+    { name: "Break (Deep Breaths!)", unit: "seconds" },
+    { name: "Plank", unit: "seconds" },
+    { name: "Russian Twists", unit: "seconds" },
+    { name: "Mountain Climbers", unit: "seconds" },
+    { name: "Side Plank (Switch Sides Halfway)", unit: "seconds" },
+    { name: "Jumping Jacks", unit: "seconds" },
+    { name: "Wall Sit", unit: "seconds" },
+  ],
+  times: ["30", "45", "60"],
 };
 
 /* BELOW ARE POSSIBLE FUTURE ADDITIONS FOR DYNAMIC DIFFICULTY */
