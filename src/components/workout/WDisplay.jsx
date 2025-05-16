@@ -65,20 +65,20 @@ export default function WCard() {
       try {
         const cardData = await drawCard(deckId);
         if (cardData.cards.length > 0) {
-          // Get a card
+          // Get a card, extract its value/suit and set a random tilt
           const card = cardData.cards[0];
           card.value = card.value.toLowerCase();
           card.suit = card.suit.toLowerCase();
           const tilt = Math.floor(Math.random() * 21) - 10; // Random tilt between -10 and 10 degrees
-          setCurrentCard(card);
-          setDrawnCards((prev) => [...prev, { ...card, tilt }]);
-          setCardsFlipped((prev) => prev + 1);
 
           // Get the corresponding exercise
           const exercise = getExerciseByCard(card, exercises);
+
+          // Set states
+          setCurrentCard(card);
           setCurrentExercise(exercise);
-          console.log("Current Card:", card);
-          console.log("Exercise:", exercise);
+          setDrawnCards((prev) => [...prev, { ...card, tilt }]);
+          setCardsFlipped((prev) => prev + 1);
         } else {
           console.log("No more cards left in the deck.");
         }
@@ -89,7 +89,7 @@ export default function WCard() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center justify-between gap-4">
       <h2 className="text-white">{formatClock(clock)}</h2>
       <span className="text-gray">
         Cards Remaining:{" "}
@@ -99,7 +99,7 @@ export default function WCard() {
       {/* Card Pile */}
       <div
         onClick={handleDrawCard}
-        className="relative w-32 h-48 cursor-pointer my-2"
+        className="relative w-32 h-48 cursor-pointer my-4"
       >
         {/* Show 3 stacked back cards when no cards flipped */}
         {cardsFlipped === 0 ? (
@@ -134,12 +134,7 @@ export default function WCard() {
         <div className="bg-gray-800 p-4 rounded-lg text-white text-center">
           <h3 className="text-lg font-semibold">{currentExercise.name}</h3>
           <span>
-            {["jack", "queen", "king"].includes(currentCard.value)
-              ? 10
-              : currentCard.value === "ace"
-              ? currentExercise.time
-              : parseInt(currentCard.value, 10)}{" "}
-            {currentExercise.unit}
+            {currentExercise.value} {currentExercise.unit}
           </span>
         </div>
       )}

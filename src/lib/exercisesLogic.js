@@ -116,5 +116,12 @@ export function getExerciseByCard(card, pool) {
     exercise = pool.numberExercises.find((ex) => ex.suit === cardSuit);
   }
 
-  return exercise;
+  return {
+    ...exercise,
+    value: ["jack", "queen", "king"].includes(card.value)
+      ? 10
+      : card.value === "ace"
+      ? exercise.time
+      : parseInt(card.value, 10),
+  };
 }
