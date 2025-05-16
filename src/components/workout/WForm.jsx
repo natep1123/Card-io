@@ -34,6 +34,18 @@ export default function WorkoutForm() {
               Half Deck
             </option>
           </select>
+          <label htmlFor="difficulty" className="text-white font-semibold">
+            Difficulty:
+          </label>
+          <select
+            id="diffuculty"
+            name="difficulty"
+            className="w-full p-2 rounded-md bg-slate text-white cursor-pointer"
+          >
+            <option value="original" className="bg-black">
+              Original
+            </option>
+          </select>
         </div>
         <button
           type="submit"
