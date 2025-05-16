@@ -35,7 +35,7 @@ export default function Header() {
                 Card-io
               </h1>
               <p className="text-sm sm:text-base italic text-gray">
-                The card-based workout generator!
+                The deck of cards workout challenge!
               </p>
             </div>
           </div>

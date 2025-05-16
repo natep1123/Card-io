@@ -13,7 +13,6 @@ export default function WCard() {
   const [clock, setClock] = useState(0);
   const [cardsFlipped, setCardsFlipped] = useState(0);
   const [drawnCards, setDrawnCards] = useState([]);
-  const [currentCard, setCurrentCard] = useState(null);
   const [currentExercise, setCurrentExercise] = useState(null);
 
   // Fetch a new deck of cards and exercises
@@ -75,7 +74,6 @@ export default function WCard() {
           const exercise = getExerciseByCard(card, exercises);
 
           // Set states
-          setCurrentCard(card);
           setCurrentExercise(exercise);
           setDrawnCards((prev) => [...prev, { ...card, tilt }]);
           setCardsFlipped((prev) => prev + 1);
