@@ -115,7 +115,7 @@ export default function WCard() {
       </div>
 
       {/* Card Pile and Exercise */}
-      <div className="flex flex-col items-center gap-8 md:gap-4">
+      <div className="flex flex-col items-center gap-12 md:gap-6">
         {/* Card Pile */}
         <div
           onClick={handleDrawCard}
