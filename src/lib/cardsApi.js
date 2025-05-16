@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export async function getFullDeck() {
-  console.log("GETTING NEW DECK");
   try {
     const response = await axios.get(
       "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
@@ -22,7 +21,6 @@ export async function getHalfDeck() {
     await axios.get(
       `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=26`
     );
-    console.log("DECK HALVED", deckId);
     return deckId;
   } catch (error) {
     console.error("Error fetching half shuffled deck:", error);
