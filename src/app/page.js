@@ -34,7 +34,7 @@ export default function Home() {
           href="/about"
           className="bg-green font-semibold rounded-md px-6 py-3 text-center"
         >
-          How's It Work?
+          How Does It Work?
         </Link>
       </div>
     </div>
