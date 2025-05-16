@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       >
         <div className="flex flex-col min-h-screen">
           <Header />
-          <main className="p-4">{children}</main>
+          <main className="p-4 h-full">{children}</main>
         </div>
       </body>
     </html>

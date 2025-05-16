@@ -6,7 +6,7 @@ export const exercisesByGroup = {
     { name: "Standard Pushups", unit: "reps" },
     { name: "Decline Pushups", unit: "reps" },
     { name: "Diamond Pushups", unit: "reps" },
-    { name: "Archer Pushups", unit: "reps" },
+    { name: "Archer Pushups", unit: "reps per side" },
     { name: "Clap Pushups", unit: "reps" },
   ],
   pull: [
@@ -23,9 +23,9 @@ export const exercisesByGroup = {
   ],
   core: [
     { name: "Hanging Leg Raises", unit: "reps" },
-    { name: "Russian Twists", unit: "reps per side" },
-    { name: "Plank", unit: "seconds" },
-    { name: "Side Plank", unit: "seconds per side" },
+    { name: "Situps", unit: "reps" },
+    { name: "Floor Leg Raises", unit: "reps" },
+    { name: "V-Ups", unit: "reps" },
   ],
 };
 
@@ -38,6 +38,7 @@ export const timeChallenges = {
     { name: "Side Plank (Switch Sides Halfway)", unit: "seconds" },
     { name: "Jumping Jacks", unit: "seconds" },
     { name: "Wall Sit", unit: "seconds" },
+    { name: "Bicycle Crunches", unit: "seconds" },
   ],
   times: ["30", "45", "60"],
 };

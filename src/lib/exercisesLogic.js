@@ -10,9 +10,9 @@ const { challenges, times } = timeChallenges; // Time challenges
 let suits = ["hearts", "diamonds", "clubs", "spades"]; // Card suits
 const uniqueExercises = [];
 
-// Get a random exercise from a specific group
-function getRandomExercise(group, db) {
-  const groupExercises = db[group];
+// Get a random exercise from a specific group in a pool of exercises
+function getRandomExercise(group, pool) {
+  const groupExercises = pool[group];
   if (!groupExercises || !groupExercises.length) return null;
   const randomIndex = Math.floor(Math.random() * groupExercises.length);
   return groupExercises[randomIndex];
@@ -88,7 +88,7 @@ function assignSuit(exerciseArr, shuffledSuits) {
 // Get exercises and assign suits
 export function getExercises() {
   uniqueExercises.length = 0; // Reset
-  const shuffledSuits = shuffleSuits(); // Shuffle the suits
+  const shuffledSuits = shuffleSuits();
 
   const numberExercises = getRandomExerciseAll(); // Number cards (2-10)
   const royalExercises = getRandomExerciseAll(); // Royal cards (J, Q, K)
@@ -99,4 +99,22 @@ export function getExercises() {
     royalExercises: assignSuit(royalExercises, shuffledSuits),
     aceExercises: assignSuit(aceExercises, shuffledSuits),
   };
+}
+
+// Function to get an exercise by card
+export function getExerciseByCard(card, pool) {
+  const cardValue = card.value.toLowerCase();
+  const cardSuit = card.suit.toLowerCase();
+
+  let exercise = null;
+
+  if (cardValue === "ace") {
+    exercise = pool.aceExercises.find((ex) => ex.suit === cardSuit);
+  } else if (["jack", "queen", "king"].includes(cardValue)) {
+    exercise = pool.royalExercises.find((ex) => ex.suit === cardSuit);
+  } else {
+    exercise = pool.numberExercises.find((ex) => ex.suit === cardSuit);
+  }
+
+  return exercise;
 }

@@ -1,9 +1,9 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { useEffect } from "react";
 import WorkoutForm from "./WForm";
-import WCard from "./WCard";
+import WDisplay from "./WDisplay";
+import WSummary from "./WSummary";
 
 export default function Workout() {
   const { wState } = useWorkoutContext();
@@ -14,9 +14,10 @@ export default function Workout() {
       {wState === "form" && <WorkoutForm />}
 
       {/* Workout Card */}
-      {wState === "workout" && <WCard />}
+      {wState === "workout" && <WDisplay />}
 
       {/* Post-Workout Summary */}
+      {wState === "summary" && <WSummary />}
     </div>
   );
 }
