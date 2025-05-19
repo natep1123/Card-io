@@ -1,28 +1,13 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { useEffect } from "react";
-import { getExercises } from "@/lib/exercisesLogic";
 import WorkoutForm from "./WForm";
 import WDisplay from "./WDisplay";
 import WSummary from "./WSummary";
-import WTable from "./table/WTable";
+import WPreview from "./tables/WPreview";
 
 export default function Workout() {
-  const { wState, setExercises } = useWorkoutContext();
-
-  // Fetch exercises on mount
-  useEffect(() => {
-    const fetchExercises = () => {
-      try {
-        const exercisesRes = getExercises();
-        setExercises(exercisesRes);
-      } catch (error) {
-        console.error("Error fetching exercises:", error);
-      }
-    };
-    fetchExercises();
-  }, []);
+  const { wState } = useWorkoutContext();
 
   return (
     <div className="flex flex-col items-center">
@@ -30,7 +15,7 @@ export default function Workout() {
       {wState === "form" && (
         <div className="flex flex-col items-center gap-4">
           <WorkoutForm />
-          <WTable />
+          <WPreview />
         </div>
       )}
 

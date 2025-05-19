@@ -8,7 +8,15 @@ import { getExerciseByCard } from "@/lib/exercisesLogic";
 import { getDeck, drawCard } from "@/lib/cardsLogic";
 
 export default function WCard() {
-  const { deck, setDeck, exercises, setWState, deckSize } = useWorkoutContext();
+  const {
+    deck,
+    setDeck,
+    exercises,
+    setExercises,
+    setWState,
+    deckSize,
+    setWStats,
+  } = useWorkoutContext();
   const [clock, setClock] = useState(0);
   const [isDeckFull, setIsDeckFull] = useState(true);
   const [drawnCards, setDrawnCards] = useState([]);
@@ -16,6 +24,8 @@ export default function WCard() {
 
   // Fetch a new deck of cards and exercises
   useEffect(() => {
+    if (deck.deckId) return; // If deck already exists, do not fetch again
+
     const fetchDeck = async () => {
       try {
         const deckRes = await getDeck(deckSize);
@@ -67,13 +77,26 @@ export default function WCard() {
         // Get the corresponding exercise
         const exercise = getExerciseByCard(drawnCard, exercises);
 
+        // Key var for wStats
+        const key = `${exercise.name}-${exercise.suit}-${exercise.group}`;
+
         // Set states
+        setWStats((prev) => ({
+          ...prev,
+          [key]: (prev[key] || 0) + exercise.value,
+        }));
         setCurrentExercise(exercise);
         setDrawnCards((prev) => [...prev, { ...drawnCard, tilt }]);
 
         setDeck(newDeck);
       } else {
         setWState("summary");
+        setDeck({
+          deckId: null,
+          cards: [],
+          remaining: null,
+        });
+        setExercises(null);
       }
     } catch (error) {
       console.error("Error drawing card:", error);
@@ -150,14 +173,14 @@ export default function WCard() {
       {deck.remaining === 0 ? (
         <button
           onClick={handleEnd}
-          className="px-4 py-2 bg-green rounded-lg cursor-pointer"
+          className="px-4 py-2 bg-green rounded-lg cursor-pointer hover:bg-green-600 transition"
         >
           Finish
         </button>
       ) : isDeckFull ? null : (
         <button
           onClick={handleEnd}
-          className="px-4 py-2 bg-red rounded-lg cursor-pointer"
+          className="px-4 py-2 bg-red rounded-lg cursor-pointer hover:bg-red-600 transition"
         >
           Tap Out
         </button>

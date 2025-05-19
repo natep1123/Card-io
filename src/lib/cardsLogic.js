@@ -14,7 +14,6 @@ export async function getDeck(deckSize) {
 export function drawCard(cardsArr) {
   try {
     const [drawnCard, ...cardsAfterDraw] = cardsArr;
-    console.log("Cards after draw", cardsAfterDraw);
     return {
       drawnCard,
       cardsAfterDraw,

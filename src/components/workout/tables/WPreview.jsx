@@ -2,13 +2,28 @@
 
 import { useState } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
+import { getExercises } from "@/lib/exercisesLogic";
+import { useEffect } from "react";
 
 // Component to display three tables of exercises (number cards, royals, aces) with group, suit, and total reps/time
-export default function WTable() {
-  const { exercises } = useWorkoutContext();
+export default function WPreview() {
+  const { exercises, setExercises } = useWorkoutContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isIndexOpen, setIsIndexOpen] = useState(false);
   const allExercises = { clubs: [], diamonds: [], hearts: [], spades: [] };
+
+  // Fetch exercises on mount
+  useEffect(() => {
+    const fetchExercises = () => {
+      try {
+        const exercisesRes = getExercises();
+        setExercises(exercisesRes);
+      } catch (error) {
+        console.error("Error fetching exercises:", error);
+      }
+    };
+    fetchExercises();
+  }, []);
 
   function groupBySuit(exercises) {
     exercises?.numberExercises.forEach((exercise) => {

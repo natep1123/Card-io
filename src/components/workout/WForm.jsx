@@ -56,13 +56,13 @@ export default function WorkoutForm() {
             const exercisesRes = getExercises();
             setExercises(exercisesRes);
           }}
-          className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer"
+          className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer hover:bg-green-600 transition"
         >
           Reroll Exercises
         </button>
         <button
           type="submit"
-          className="w-full py-3 rounded-md bg-red text-white font-semibold cursor-pointer"
+          className="w-full py-3 rounded-md bg-red text-white font-semibold cursor-pointer hover:bg-red-600 transition"
         >
           Start Workout
         </button>

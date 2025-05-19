@@ -13,6 +13,19 @@ export function WorkoutProvider({ children }) {
     remaining: null,
   });
   const [wState, setWState] = useState("form");
+  const [wStats, setWStats] = useState({});
+
+  // Function to reset deck and exercises state
+  const startFresh = () => {
+    setDeck({
+      deckId: null,
+      cards: [],
+      remaining: null,
+    });
+    setDeckSize("full");
+    setWStats({});
+    setWState("form");
+  };
 
   return (
     <WorkoutContext.Provider
@@ -25,6 +38,9 @@ export function WorkoutProvider({ children }) {
         setWState,
         deckSize,
         setDeckSize,
+        wStats,
+        setWStats,
+        startFresh,
       }}
     >
       {children}
