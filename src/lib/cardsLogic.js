@@ -1,0 +1,27 @@
+import axios from "axios";
+
+export async function getDeck(deckSize) {
+  try {
+    const response = await axios.get("/api/deck/new", { params: { deckSize } });
+    console.log("/API/DECK/NEW ROUTE RESPONSE", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching new deck:", error);
+    throw error;
+  }
+}
+
+export function drawCard(cardsArr) {
+  try {
+    const [drawnCard, ...cardsAfterDraw] = cardsArr;
+    console.log("Cards after draw", cardsAfterDraw);
+    return {
+      drawnCard,
+      cardsAfterDraw,
+      remaining: cardsAfterDraw.length,
+    };
+  } catch (error) {
+    console.error("Error drawing card:", error);
+    throw error;
+  }
+}

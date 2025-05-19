@@ -3,42 +3,46 @@
 // Array of exercises for each suit
 export const exercisesByGroup = {
   push: [
-    { name: "Standard Pushups", unit: "reps" },
-    { name: "Decline Pushups", unit: "reps" },
-    { name: "Diamond Pushups", unit: "reps" },
-    { name: "Archer Pushups", unit: "reps per side" },
-    { name: "Clap Pushups", unit: "reps" },
+    { name: "Standard Pushups", unit: "reps", group: "push" },
+    { name: "Decline Pushups", unit: "reps", group: "push" },
+    { name: "Diamond Pushups", unit: "reps", group: "push" },
+    { name: "Archer Pushups", unit: "reps per side", group: "push" },
+    { name: "Clap Pushups", unit: "reps", group: "push" },
   ],
   pull: [
-    { name: "Pull-Ups", unit: "reps" },
-    { name: "Chin-Ups", unit: "reps" },
-    { name: "Horizontal Rows", unit: "reps" },
-    { name: "Archer Pullups", unit: "reps per side" },
+    { name: "Pull-Ups", unit: "reps", group: "pull" },
+    { name: "Chin-Ups", unit: "reps", group: "pull" },
+    { name: "Horizontal Rows", unit: "reps", group: "pull" },
+    { name: "Archer Pullups", unit: "reps per side", group: "pull" },
   ],
   legs: [
-    { name: "Bodyweight Squats", unit: "reps" },
-    { name: "Lunges", unit: "reps per leg" },
-    { name: "Jump Squats", unit: "reps" },
-    { name: "Reverse Lunges", unit: "reps per leg" },
+    { name: "Bodyweight Squats", unit: "reps", group: "legs" },
+    { name: "Lunges", unit: "reps per leg", group: "legs" },
+    { name: "Jump Squats", unit: "reps", group: "legs" },
+    { name: "Reverse Lunges", unit: "reps per leg", group: "legs" },
   ],
   core: [
-    { name: "Hanging Leg Raises", unit: "reps" },
-    { name: "Situps", unit: "reps" },
-    { name: "Floor Leg Raises", unit: "reps" },
-    { name: "V-Ups", unit: "reps" },
+    { name: "Hanging Leg Raises", unit: "reps", group: "core" },
+    { name: "Situps", unit: "reps", group: "core" },
+    { name: "Floor Leg Raises", unit: "reps", group: "core" },
+    { name: "V-Ups", unit: "reps", group: "core" },
   ],
 };
 
-export const timeChallenges = {
+export const timedChallenges = {
   challenges: [
-    { name: "Break (Deep Breaths!)", unit: "seconds" },
-    { name: "Plank", unit: "seconds" },
-    { name: "Russian Twists", unit: "seconds" },
-    { name: "Mountain Climbers", unit: "seconds" },
-    { name: "Side Plank (Switch Sides Halfway)", unit: "seconds" },
-    { name: "Jumping Jacks", unit: "seconds" },
-    { name: "Wall Sit", unit: "seconds" },
-    { name: "Bicycle Crunches", unit: "seconds" },
+    { name: "Rest", unit: "sec", group: "timed" },
+    { name: "Plank", unit: "sec", group: "timed" },
+    { name: "Russian Twists", unit: "sec", group: "timed" },
+    { name: "Mountain Climbers", unit: "sec", group: "timed" },
+    {
+      name: "Side Plank",
+      unit: "sec per side",
+      group: "timed",
+    },
+    { name: "Jumping Jacks", unit: "sec", group: "timed" },
+    { name: "Wall Sit", unit: "sec", group: "timed" },
+    { name: "Bicycle Crunches", unit: "sec", group: "timed" },
   ],
   times: ["30", "45", "60"],
 };

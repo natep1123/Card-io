@@ -4,43 +4,28 @@
 
 import { useState, useEffect } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { getExercises, getExerciseByCard } from "@/lib/exercisesLogic";
-import { getFullDeck, getHalfDeck, drawCard } from "@/lib/cardsApi";
+import { getExerciseByCard } from "@/lib/exercisesLogic";
+import { getDeck, drawCard } from "@/lib/cardsLogic";
 
 export default function WCard() {
-  const { deckId, setDeckId, exercises, setExercises, setWState, deckSize } =
-    useWorkoutContext();
+  const { deck, setDeck, exercises, setWState, deckSize } = useWorkoutContext();
   const [clock, setClock] = useState(0);
-  const [cardsRemaining, setCardsRemaining] = useState(
-    deckSize === "half" ? 26 : 52
-  );
   const [isDeckFull, setIsDeckFull] = useState(true);
-  const [isDeckEmpty, setIsDeckEmpty] = useState(false);
   const [drawnCards, setDrawnCards] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
 
   // Fetch a new deck of cards and exercises
   useEffect(() => {
-    const fetchData = async () => {
-      if (deckId && exercises) return; // Skip if already fetched
-
-      // Initialize response variables
-      let deckIdRes = null;
-      let exercisesRes = null;
-
-      // Data Fetching
+    const fetchDeck = async () => {
       try {
-        deckIdRes =
-          deckSize === "half" ? await getHalfDeck() : await getFullDeck();
-        exercisesRes = getExercises();
-        setDeckId(deckIdRes);
-        setExercises(exercisesRes);
+        const deckRes = await getDeck(deckSize);
+        setDeck(deckRes);
       } catch (error) {
         console.error("Error fetching deck:", error);
       }
     };
-    fetchData();
-  }, [deckId, exercises, deckSize]);
+    fetchDeck();
+  }, []);
 
   // Generate a clock to show time elapsed
   useEffect(() => {
@@ -62,42 +47,43 @@ export default function WCard() {
   };
 
   // Function to handle drawing a card
-  const handleDrawCard = async () => {
+  const handleDrawCard = () => {
     if (isDeckFull) setIsDeckFull(false);
 
-    if (deckId) {
-      try {
-        const cardData = await drawCard(deckId);
-        const remaining = cardData.remaining;
-        if (remaining === 0) setIsDeckEmpty(true);
-        const isCard = cardData.cards.length > 0;
-        if (isCard) {
-          // Get a card, extract its value/suit and set a random tilt
-          const card = cardData.cards[0];
-          card.value = card.value.toLowerCase();
-          card.suit = card.suit.toLowerCase();
-          const tilt = Math.floor(Math.random() * 21) - 10; // Random tilt between -10 and 10 degrees
+    // Fetch card from cached cards
+    try {
+      // Draw card and set variables
+      const cardData = drawCard(deck.cards);
+      const { drawnCard, cardsAfterDraw, remaining } = cardData;
 
-          // Get the corresponding exercise
-          const exercise = getExerciseByCard(card, exercises);
+      const newDeck = { ...deck, cards: cardsAfterDraw, remaining };
 
-          // Set states
-          setCurrentExercise(exercise);
-          setDrawnCards((prev) => [...prev, { ...card, tilt }]);
-          setCardsRemaining(remaining);
-        } else {
-          setWState("summary");
-        }
-      } catch (error) {
-        console.error("Error drawing card:", error);
+      if (drawnCard) {
+        // Extract card value/suit and set a random tilt
+        drawnCard.value = drawnCard.value.toLowerCase();
+        drawnCard.suit = drawnCard.suit.toLowerCase();
+        const tilt = Math.floor(Math.random() * 21) - 10; // Random tilt between -10 and 10 degrees
+
+        // Get the corresponding exercise
+        const exercise = getExerciseByCard(drawnCard, exercises);
+
+        // Set states
+        setCurrentExercise(exercise);
+        setDrawnCards((prev) => [...prev, { ...drawnCard, tilt }]);
+
+        setDeck(newDeck);
+      } else {
+        setWState("summary");
       }
+    } catch (error) {
+      console.error("Error drawing card:", error);
     }
   };
 
   // Function to handle ending workout early
   const handleEnd = () => {
     // Confirm if tapout
-    if (!isDeckEmpty) {
+    if (deck.remaining > 0) {
       const confirmTapOut = window.confirm(
         "No shame! Are you sure you want to tap out?"
       );
@@ -111,7 +97,7 @@ export default function WCard() {
       {/* Clock and Cards Remaining */}
       <div className="flex flex-col items-center gap-2">
         <h2 className="text-white">{formatClock(clock)}</h2>
-        <span className="text-gray">Cards Remaining: {cardsRemaining}</span>
+        <span className="text-gray">Cards Remaining: {deck.remaining}</span>
       </div>
 
       {/* Card Pile and Exercise */}
@@ -161,7 +147,7 @@ export default function WCard() {
       </div>
 
       {/* Button Options */}
-      {isDeckEmpty ? (
+      {deck.remaining === 0 ? (
         <button
           onClick={handleEnd}
           className="px-4 py-2 bg-green rounded-lg cursor-pointer"

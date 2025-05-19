@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
+import { WorkoutProvider } from "@/contexts/WorkoutContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,10 +24,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="p-4 h-full">{children}</main>
-        </div>
+        <WorkoutProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="p-4 h-full">{children}</main>
+          </div>
+        </WorkoutProvider>
       </body>
     </html>
   );

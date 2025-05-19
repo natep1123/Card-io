@@ -2,15 +2,15 @@
 // Each suit will have 3 random exercises (1 for number cards, 1 for royal cards, and 1 for aces).
 // Example: 2H = 2 Standard Pushups, KH = 10 Clap Pullups, AH = 15 Decline Pushups
 
-import { exercisesByGroup, timeChallenges } from "@/lib/exercisesDb";
+import { exercisesByGroup, timedChallenges } from "@/lib/exercisesDb";
 
 // Variables
 const groups = Object.keys(exercisesByGroup); // Push, pull, legs, core
-const { challenges, times } = timeChallenges; // Time challenges
+const { challenges, times } = timedChallenges; // Time challenges
 let suits = ["hearts", "diamonds", "clubs", "spades"]; // Card suits
-const uniqueExercises = [];
+const uniqueExercises = []; // To prevent duplicates
 
-// Get a random exercise from a specific group in a pool of exercises
+// Helper; Get a random exercise from a specific group in a pool of exercises
 function getRandomExercise(group, pool) {
   const groupExercises = pool[group];
   if (!groupExercises || !groupExercises.length) return null;
@@ -18,7 +18,7 @@ function getRandomExercise(group, pool) {
   return groupExercises[randomIndex];
 }
 
-// Get a random exercise for all groups
+// Helper; Get a random exercise for all groups
 function getRandomExerciseAll() {
   const selectedExercises = groups.map((group) => {
     let exercise = null;
@@ -34,10 +34,10 @@ function getRandomExerciseAll() {
     }
     return exercise;
   });
-  return selectedExercises.filter(Boolean); // Remove nulls
+  return selectedExercises.filter(Boolean); // Remove any nulls
 }
 
-// Get 4 random challenges from the time charge (a challenge can be selected twice)
+// Helper; Get 4 random challenges from the time charge (a challenge can be selected twice)
 function getRandomChallenges() {
   const selectedChallenges = [];
   const challengeCounts = {}; // Track count of each challenge
@@ -65,7 +65,7 @@ function getRandomChallenges() {
   return selectedChallenges;
 }
 
-// Function to shuffle the suits
+// Helper; Function to shuffle the suits
 function shuffleSuits() {
   const shuffled = [...suits];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -75,7 +75,7 @@ function shuffleSuits() {
   return shuffled;
 }
 
-// Function to assign suits to exercises (exercises from the same group will have the same suit)
+// Helper; Function to assign suits to exercises (exercises from the same group will have the same suit)
 function assignSuit(exerciseArr, shuffledSuits) {
   for (let i = 0; i < exerciseArr.length; i++) {
     // Assign a suit to each exercise

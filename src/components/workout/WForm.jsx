@@ -1,9 +1,10 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
+import { getExercises } from "@/lib/exercisesLogic";
 
 export default function WorkoutForm() {
-  const { setWState, setDeckSize } = useWorkoutContext();
+  const { setWState, setDeckSize, setExercises } = useWorkoutContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +50,16 @@ export default function WorkoutForm() {
             </option>
           </select>
         </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            const exercisesRes = getExercises();
+            setExercises(exercisesRes);
+          }}
+          className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer"
+        >
+          Reroll Exercises
+        </button>
         <button
           type="submit"
           className="w-full py-3 rounded-md bg-red text-white font-semibold cursor-pointer"
