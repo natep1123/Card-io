@@ -6,14 +6,6 @@ import { useWorkoutContext } from "@/contexts/WorkoutContext";
 export default function WStats() {
   const { wStats } = useWorkoutContext();
 
-  if (!wStats) {
-    return (
-      <div className="w-full max-w-lg p-4 bg-gray-800 rounded-lg text-white">
-        <h3 className="text-lg font-semibold mb-4">Loading...</h3>
-      </div>
-    );
-  }
-
   // Parse wStats into an array of exercise objects
   const exerciseList = Object.entries(wStats).map(([key, reps]) => {
     const parts = key.split("-");
@@ -42,9 +34,9 @@ export default function WStats() {
   });
 
   return (
-    <div className="w-full max-w-lg p-4 bg-slate text-center flex flex-col items-center">
-      <div className="mt-4 w-full">
-        <h3 className="text-lg font-semibold mb-2 text-left">Workout Stats</h3>
+    <div className="w-full max-w-lg bg-slate text-center flex flex-col items-center">
+      <div className="w-full">
+        <h3 className="text-lg font-semibold mb-2 text-left">Final Stats</h3>
         <table className="w-full text-left border-collapse border border-gray-700 bg-gray-800">
           <thead>
             <tr className="border-b border-gray-600">

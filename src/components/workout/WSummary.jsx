@@ -18,11 +18,13 @@ export default function WSummary() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <h2 className="text-2xl font-bold mb-4">Workout Summary</h2>
-      <h3 className="text-lg">
-        Total Time: <span className="font-bold">{formatClock(clock)}</span>
-      </h3>
+    <div className="w-full flex flex-col items-center gap-4">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-4">Workout Summary</h2>
+        <h3 className="text-lg">
+          Total Time: <span className="font-bold">{formatClock(clock)}</span>
+        </h3>
+      </div>
       <WStats />
       <button
         onClick={handleClick}
