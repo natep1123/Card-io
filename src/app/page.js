@@ -6,7 +6,7 @@ export default function Home() {
     "Card-io uses the Deck of Cards API to randomize full-body workout challenges.",
     "Simple to play, but hard to master.",
     "Think you can handle it?",
-    "Place your bets and click below to get started!",
+    "Place your bets and click below to get your challenge!",
   ];
 
   return (
