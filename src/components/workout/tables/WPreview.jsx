@@ -73,7 +73,7 @@ export default function WPreview() {
 
   // Render a single table for a given exercise type
   const renderTable = (exerciseList, suit) => (
-    <div className="w-full mb-6 bg-gray-800 border border-gray-700 rounded-lg p-4">
+    <div className="w-full bg-gray-800 border border-gray-700 rounded-lg p-4">
       <h4 className="text-md text-left font-semibold mb-2">
         {suit === "clubs" && "♣️ Clubs"}
         {suit === "hearts" && "♥️ Hearts"}
@@ -109,7 +109,7 @@ export default function WPreview() {
   ];
 
   return (
-    <div className="w-full max-w-lg bg-slate rounded-lg text-center flex flex-col items-center">
+    <div className="w-full max-w-lg bg-slate rounded-lg text-center flex flex-col items-center gap-4">
       <button
         onClick={toggleDropdown}
         className="py-2 px-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition flex items-center justify-center cursor-pointer"
@@ -118,8 +118,8 @@ export default function WPreview() {
         <span className={`ml-2 transform ${isOpen ? "rotate-90" : ""}`}>➔</span>
       </button>
       {isOpen && (
-        <div className="mt-4 w-full">
-          <div className="mb-4">
+        <div className="w-full flex flex-col gap-4">
+          <div>
             <button
               onClick={toggleIndexDropdown}
               className="py-2 px-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition flex items-center justify-start cursor-pointer"
@@ -132,7 +132,7 @@ export default function WPreview() {
               </span>
             </button>
             {isIndexOpen && (
-              <table className="w-full text-left border-collapse mt-2 p-4">
+              <table className="w-full text-left border-collapse p-4">
                 <thead>
                   <tr className="border-b border-gray-600">
                     <th className="py-2 px-4">Card Type</th>
