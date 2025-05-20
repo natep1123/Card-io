@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
 import { getExercises } from "@/lib/exercisesLogic";
-import { useEffect } from "react";
+import Loader from "@/components/Loader";
 
-// Component to display three tables of exercises (number cards, royals, aces) with group, suit, and total reps/time
+// Component to display tables of exercises by group (push, pull, legs) with suit and type
 export default function WPreview() {
   const { exercises, setExercises } = useWorkoutContext();
   const [isOpen, setIsOpen] = useState(false);
@@ -23,28 +23,47 @@ export default function WPreview() {
       }
     };
     fetchExercises();
-  }, []);
+  }, [setExercises]);
 
   function groupBySuit(exercises) {
-    exercises?.numberExercises.forEach((exercise) => {
+    if (!exercises) return;
+
+    exercises.numberExercises.forEach((exercise) => {
       allExercises[exercise.suit].push({ ...exercise, type: "number" });
     });
-    exercises?.royalExercises.forEach((exercise) => {
+    exercises.royalExercises.forEach((exercise) => {
       allExercises[exercise.suit].push({ ...exercise, type: "royal" });
     });
-    exercises?.aceExercises.forEach((exercise) => {
+    exercises.aceExercises.forEach((exercise) => {
       allExercises[exercise.suit].push({ ...exercise, type: "ace" });
     });
   }
-  groupBySuit(exercises);
 
+  // Show loader if no exercises, else group them by suit
   if (!exercises) {
-    return (
-      <div className="w-full max-w-lg p-4 bg-gray-800 rounded-lg text-white">
-        <h3 className="text-lg font-semibold mb-4">Loading...</h3>
-      </div>
-    );
+    return <Loader />;
+  } else {
+    groupBySuit(exercises);
   }
+
+  // Determine suit-to-group mapping
+  const suitToGroup = {};
+  Object.keys(allExercises).forEach((suit) => {
+    const exercise = allExercises[suit][0];
+    if (exercise) {
+      suitToGroup[suit] = exercise.group;
+    }
+  });
+
+  // Define desired group order
+  const groupOrder = ["push", "pull", "legs", "core"];
+
+  // Sort suits based on their group, following groupOrder
+  const sortedSuits = Object.keys(suitToGroup).sort((a, b) => {
+    const groupA = suitToGroup[a];
+    const groupB = suitToGroup[b];
+    return groupOrder.indexOf(groupA) - groupOrder.indexOf(groupB);
+  });
 
   // Toggle main dropdown visibility
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -55,7 +74,12 @@ export default function WPreview() {
   // Render a single table for a given exercise type
   const renderTable = (exerciseList, suit) => (
     <div className="w-full mb-6 bg-gray-800 border border-gray-700 rounded-lg p-4">
-      <h4 className="text-md text-left font-semibold mb-2">{suit}</h4>
+      <h4 className="text-md text-left font-semibold mb-2">
+        {suit === "clubs" && "♣️ Clubs"}
+        {suit === "hearts" && "♥️ Hearts"}
+        {suit === "spades" && "♠️ Spades"}
+        {suit === "diamonds" && "♦️ Diamonds"}
+      </h4>
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-gray-600">
@@ -85,7 +109,7 @@ export default function WPreview() {
   ];
 
   return (
-    <div className="w-full max-w-lg p-4 bg-slate rounded-lg text-center flex flex-col items-center">
+    <div className="w-full max-w-lg bg-slate rounded-lg text-center flex flex-col items-center">
       <button
         onClick={toggleDropdown}
         className="py-2 px-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition flex items-center justify-center cursor-pointer"
@@ -128,10 +152,9 @@ export default function WPreview() {
               </table>
             )}
           </div>
-          {renderTable(allExercises.clubs, "♣️ Clubs")}
-          {renderTable(allExercises.hearts, "♥️ Hearts")}
-          {renderTable(allExercises.spades, "♠️ Spades")}
-          {renderTable(allExercises.diamonds, "♦️ Diamonds")}
+          {sortedSuits.map((suit) => (
+            <div key={suit}>{renderTable(allExercises[suit], suit)}</div>
+          ))}
         </div>
       )}
     </div>

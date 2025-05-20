@@ -6,8 +6,9 @@ import { useState, useEffect } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
 import { getExerciseByCard } from "@/lib/exercisesLogic";
 import { getDeck, drawCard } from "@/lib/cardsLogic";
+import Loader from "../Loader";
 
-export default function WCard() {
+export default function WDisplay() {
   const {
     deck,
     setDeck,
@@ -16,71 +17,76 @@ export default function WCard() {
     setWState,
     deckSize,
     setWStats,
+    isDeckFull,
+    setIsDeckFull,
+    drawnCards,
+    setDrawnCards,
+    currentExercise,
+    setCurrentExercise,
+    clockStart,
+    setClockStart,
+    formatClock,
   } = useWorkoutContext();
-  const [clock, setClock] = useState(0);
-  const [isDeckFull, setIsDeckFull] = useState(true);
-  const [drawnCards, setDrawnCards] = useState([]);
-  const [currentExercise, setCurrentExercise] = useState(null);
+
+  const [clock, setClock] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch a new deck of cards and exercises
   useEffect(() => {
-    if (deck.deckId) return; // If deck already exists, do not fetch again
+    if (deck.deckId) {
+      if (clockStart) {
+        const initial = Math.floor((Date.now() - clockStart) / 1000);
+        setClock(initial);
+      }
+      setLoading(false);
+      return; // If deck already exists, do not fetch again
+    }
 
     const fetchDeck = async () => {
       try {
         const deckRes = await getDeck(deckSize);
         setDeck(deckRes);
+        const now = Date.now();
+        if (!clockStart) setClockStart(now);
+        setClock(Math.floor((now - (clockStart || now)) / 1000));
       } catch (error) {
         console.error("Error fetching deck:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchDeck();
   }, []);
 
-  // Generate a clock to show time elapsed
+  // Generate clock based on timestamp
   useEffect(() => {
+    if (!clockStart) return;
+
     const interval = setInterval(() => {
-      setClock((prevClock) => prevClock + 1);
+      const elapsed = Math.floor((Date.now() - clockStart) / 1000);
+      setClock(elapsed);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [clock]);
-
-  // Format clock as 0:45:26
-  const formatClock = (seconds) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hrs}:${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
+  }, [clockStart]);
 
   // Function to handle drawing a card
   const handleDrawCard = () => {
     if (isDeckFull) setIsDeckFull(false);
 
-    // Fetch card from cached cards
     try {
-      // Draw card and set variables
       const cardData = drawCard(deck.cards);
       const { drawnCard, cardsAfterDraw, remaining } = cardData;
-
       const newDeck = { ...deck, cards: cardsAfterDraw, remaining };
 
       if (drawnCard) {
-        // Extract card value/suit and set a random tilt
         drawnCard.value = drawnCard.value.toLowerCase();
         drawnCard.suit = drawnCard.suit.toLowerCase();
-        const tilt = Math.floor(Math.random() * 21) - 10; // Random tilt between -10 and 10 degrees
+        const tilt = Math.floor(Math.random() * 21) - 10;
 
-        // Get the corresponding exercise
         const exercise = getExerciseByCard(drawnCard, exercises);
-
-        // Key var for wStats
         const key = `${exercise.name}-${exercise.suit}-${exercise.group}`;
 
-        // Set states
         setWStats((prev) => ({
           ...prev,
           [key]: (prev[key] || 0) + exercise.value,
@@ -91,11 +97,7 @@ export default function WCard() {
         setDeck(newDeck);
       } else {
         setWState("summary");
-        setDeck({
-          deckId: null,
-          cards: [],
-          remaining: null,
-        });
+        setDeck({ deckId: null, cards: [], remaining: null });
         setExercises(null);
       }
     } catch (error) {
@@ -105,7 +107,6 @@ export default function WCard() {
 
   // Function to handle ending workout early
   const handleEnd = () => {
-    // Confirm if tapout
     if (deck.remaining > 0) {
       const confirmTapOut = window.confirm(
         "No shame! Are you sure you want to tap out?"
@@ -114,6 +115,14 @@ export default function WCard() {
     }
     setWState("summary");
   };
+
+  if (loading || clock === null || deck.remaining === null) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-16 md:gap-8">
@@ -125,12 +134,10 @@ export default function WCard() {
 
       {/* Card Pile and Exercise */}
       <div className="flex flex-col items-center gap-12 md:gap-6">
-        {/* Card Pile */}
         <div
           onClick={handleDrawCard}
           className="relative w-32 h-48 cursor-pointer"
         >
-          {/* Show 3 stacked back cards when no cards flipped */}
           {isDeckFull ? (
             <>
               {[-5, 0, 5].map((angle, index) => (
@@ -158,7 +165,6 @@ export default function WCard() {
           )}
         </div>
 
-        {/* Current Exercise */}
         {currentExercise && (
           <div className="w-full bg-gray-800 p-4 rounded-lg text-white text-center font-semibold">
             <h3 className="text-lg">{currentExercise.name}</h3>

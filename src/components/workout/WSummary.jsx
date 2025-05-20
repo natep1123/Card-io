@@ -4,10 +4,10 @@ import { useWorkoutContext } from "@/contexts/WorkoutContext";
 import WStats from "./tables/WStats";
 
 export default function WSummary() {
-  const { startFresh } = useWorkoutContext();
+  const { resetWorkout } = useWorkoutContext();
 
   function handleClick() {
-    startFresh();
+    resetWorkout();
   }
 
   return (

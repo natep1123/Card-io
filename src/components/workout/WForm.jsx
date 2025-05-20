@@ -12,6 +12,15 @@ export default function WorkoutForm() {
     setWState("workout");
   };
 
+  const handleReroll = async (e) => {
+    e.preventDefault();
+    setExercises(null); // Set null for preview loading state
+    const exercisesRes = getExercises();
+    setTimeout(() => {
+      setExercises(exercisesRes);
+    }, 500); // 500ms delay
+  };
+
   return (
     <div className="flex flex-col items-center bg-slate">
       <h2 className="mb-6 text-white">Choose Your Workout!</h2>
@@ -51,11 +60,7 @@ export default function WorkoutForm() {
           </select>
         </div>
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            const exercisesRes = getExercises();
-            setExercises(exercisesRes);
-          }}
+          onClick={handleReroll}
           className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer hover:bg-green-600 transition"
         >
           Reroll Exercises
