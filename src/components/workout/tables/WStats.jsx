@@ -23,6 +23,7 @@ export default function WStats() {
     return {
       name,
       group,
+      suit,
       reps: typeof reps === "string" ? parseInt(reps, 10) : reps,
     };
   });
@@ -49,6 +50,7 @@ export default function WStats() {
             <tr className="border-b border-gray-600">
               <th className="py-2 px-4 font-semibold">Exercise</th>
               <th className="py-2 px-4 font-semibold">Group</th>
+              <th className="py-2 px-4 font-semibold">Suit</th>
               <th className="py-2 px-4 font-semibold">Total</th>
             </tr>
           </thead>
@@ -58,6 +60,12 @@ export default function WStats() {
                 <tr key={index} className="border-b border-gray-700">
                   <td className="py-2 px-4">{exercise.name}</td>
                   <td className="py-2 px-4 capitalize">{exercise.group}</td>
+                  <td className="py-2 px-4">
+                    {exercise.suit === "clubs" && "♣️"}
+                    {exercise.suit === "hearts" && "♥️"}
+                    {exercise.suit === "spades" && "♠️"}
+                    {exercise.suit === "diamonds" && "♦️"}
+                  </td>
                   <td className="py-2 px-4">{exercise.reps}</td>
                 </tr>
               ))
