@@ -104,7 +104,7 @@ export default function WPreview() {
   // Data for the summary table
   const summaryData = [
     { cardType: "Number Cards", sets: 9, repsTime: "2-10 reps" },
-    { cardType: "Royal Cards (J,Q,K)", sets: 3, repsTime: "10 reps" },
+    { cardType: "Royal Cards", sets: 3, repsTime: "10 reps" },
     { cardType: "Aces", sets: 1, repsTime: "30/45/60 seconds" },
   ];
 
