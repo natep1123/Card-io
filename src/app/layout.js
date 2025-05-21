@@ -27,7 +27,9 @@ export default function RootLayout({ children }) {
         <WorkoutProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="p-4 h-full">{children}</main>
+            <main className="p-4 h-full flex flex-col items-center">
+              {children}
+            </main>
           </div>
         </WorkoutProvider>
       </body>

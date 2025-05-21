@@ -18,6 +18,7 @@ export default function WorkoutForm() {
     const exercisesRes = getExercises();
     setTimeout(() => {
       setExercises(exercisesRes);
+      console.log("exercisesRes", exercisesRes);
     }, 500); // 500ms delay
   };
 
