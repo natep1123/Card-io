@@ -23,8 +23,8 @@ export default function AboutPage() {
         </p>,
         <p>
           Card-io is still in development with plans to make it more
-          customizable so that it can be better tailored to the individual
-          user's fitness level. For now, the exercises are randomized from a
+          customizable so that it can be better tailored to the fitness level of
+          each individual user. For now, the exercises are randomized from a
           pool of exercises for each muscle group plus timed challenges. The
           exercises are all bodyweight-based and can be done with little-to-no
           equipment.
