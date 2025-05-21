@@ -5,45 +5,22 @@ export default function AboutPage() {
     {
       q: "Intro",
       a: [
-        <p>
-          A standard deck of 52 cards has 4 suits: hearts, clubs, diamonds, and
-          spades, each with 13 cards. Every suit includes 9 number cards (2-10),
-          3 royal cards (Jack, Queen, King), and an ace. Shuffling a deck
-          creates 52 factorial (52!) possibilities, which translates to over 8
-          quintillion (8,000,000,000,000,000,000,000) unique sequences, ensuring
-          no two Card-io workouts are ever alike.
-        </p>,
-        <p>
-          The goal of Card-io is to complete the entire deck of cards in a
-          single workout. This is a high-volume challenge, so be sure to scale
-          the workout to your personal fitness level. You can choose between a
-          full deck (52 cards) or a half deck (26 cards). If the exercise drawn
-          is too difficult (like 10 Archer Pullups per side), feel free to break
-          it into smaller sets (like 5 sets of 2 per side).
-        </p>,
-        <p>
-          Card-io is still in development with plans to make it more
-          customizable so that it can be better tailored to the fitness level of
-          each individual user. For now, the exercises are randomized from a
-          pool of exercises for each muscle group plus timed challenges. The
-          exercises are all bodyweight-based and can be done with little-to-no
-          equipment.
-        </p>,
+        "A standard deck of 52 cards has 4 suits: hearts, clubs, diamonds, and spades, each with 13 cards. Every suit includes 9 number cards (2-10), 3 royal cards (Jack, Queen, King), and an ace. Shuffling a deck creates 52 factorial (52!) possibilities, which translates to over 8 quintillion (8,000,000,000,000,000,000,000) unique sequences, ensuring no two Card-io workouts are ever alike.",
+        "The goal of Card-io is to complete the entire deck of cards in a single workout. This is a high-volume challenge, so be sure to scale the workout to your personal fitness level. You can choose between a full deck (52 cards) or a half deck (26 cards). If the exercise drawn is too difficult (like 10 Archer Pullups per side), feel free to break it into smaller sets (like 5 sets of 2 per side).",
+
+        "Card-io is still in development with plans to make it more customizable so that it can be better tailored to the fitness level of each individual user. For now, the exercises are randomized from a pool of exercises for each muscle group plus timed challenges. The exercises are all bodyweight-based and can be done with little-to-no equipment.",
       ],
     },
     {
       q: "How It Works",
       a: [
         <>
-          <p>
-            Every workout consists of exercises from the 4 primary muscle
-            groups: push, pull, legs, and core, plus timed challenges. Each
-            muscle group is assigned a suit and two random exercises from each
-            group are chosen at random. Each suit is also assigned a random
-            timed challenge for its ace card. Number cards are worth their
-            number in reps, royal cards are worth 10 and aces are worth 30/45/60
-            seconds (chosen randomly).
-          </p>
+          Every workout consists of exercises from the 4 primary muscle groups:
+          push, pull, legs, and core, plus timed challenges. Each muscle group
+          is assigned a suit and two random exercises from each group are chosen
+          at random. Each suit is also assigned a random timed challenge for its
+          ace card. Number cards are worth their number in reps, royal cards are
+          worth 10 and aces are worth 30/45/60 seconds (chosen randomly).
           <ExercisesExample />
         </>,
       ],
@@ -51,15 +28,7 @@ export default function AboutPage() {
     {
       q: "How Much Volume?",
       a: [
-        <p>
-          To calculate the volume (total reps and/or time) of a Card-io workout,
-          we can first determine the reps for each exercise type (number, royal,
-          ace). If you complete all the reps for a number exercise, you will
-          complete 9 sets of 2-10 reps (2+3+4+5...10) totaling 54 reps. Royal
-          exercises consist of 3 sets of 10 reps, totaling 30. Aces are 1 set
-          each of 30/45/60 seconds (chosen randomly). The total volume for a
-          workout is the sum of reps/time from all the completed exercises.
-        </p>,
+        "To calculate the volume (total reps and/or time) of a Card-io workout, we can first determine the reps for each exercise type (number, royal, ace). If you complete all the reps for a number exercise, you will complete 9 sets of 2-10 reps (2+3+4+5...10) totaling 54 reps. Royal exercises consist of 3 sets of 10 reps, totaling 30. Aces are 1 set each of 30/45/60 seconds (chosen randomly). The total volume for a workout is the sum of reps/time from all the completed exercises.",
         <>
           <div className="my-4">
             <span>
@@ -95,13 +64,9 @@ export default function AboutPage() {
         {paragraphs.map((para, index) => (
           <div key={index} className="border-b border-gray-700 pb-4">
             <h3 className="text-lg font-semibold mb-2">{para.q}</h3>
-            <div className="text-white">
+            <div className="text-white flex flex-col gap-2">
               {para.a.map((p) => {
-                return (
-                  <div key={`${index}-${Math.random()}`} className="mb-2">
-                    {p}
-                  </div>
-                );
+                return <div key={`${index}-${Math.random()}`}>{p}</div>;
               })}
             </div>
           </div>
