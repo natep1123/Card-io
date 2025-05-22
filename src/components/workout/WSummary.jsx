@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import WStats from "./tables/WStats";
 
 export default function WSummary() {
-  const { resetWorkout, clockStart, formatClock } = useWorkoutContext();
+  const { resetWorkout, clockStart, formatClock, skippedCounter, deckSize } =
+    useWorkoutContext();
   const [clock, setClock] = useState(null);
 
   useEffect(() => {
@@ -21,9 +22,24 @@ export default function WSummary() {
     <div className="w-full flex flex-col items-center gap-4">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-4">Workout Summary</h2>
-        <h3 className="text-lg">
-          Total Time: <span className="font-bold">{formatClock(clock)}</span>
-        </h3>
+        <table className="w-full max-w-xs text-left border-collapse text-white">
+          <tbody>
+            <tr className="border-b border-gray-600">
+              <td className="py-2 px-4">Total Time</td>
+              <td className="py-2 px-4 font-bold">{formatClock(clock)}</td>
+            </tr>
+            <tr className="border-b border-gray-600">
+              <td className="py-2 px-4">Total Cards</td>
+              <td className="py-2 px-4 font-semibold">
+                {deckSize === "full" ? 52 : 26}
+              </td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4">Skipped</td>
+              <td className="py-2 px-4 font-semibold">{skippedCounter}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <WStats />
       <button

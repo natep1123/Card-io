@@ -1,24 +1,26 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { getExercises } from "@/lib/exercisesLogic";
+import { getOriginal } from "@/lib/original";
 
 export default function WorkoutForm() {
-  const { setWState, setDeckSize, setExercises } = useWorkoutContext();
+  const { setWState, setDeckSize, setExercises, setMultiplier } =
+    useWorkoutContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDeckSize(e.target.deckSize.value);
+    setMultiplier(e.target.multiplier.value);
+    const wtype = e.target.wtype.value; // placeholder for future workout types (AI generated, etc)
     setWState("workout");
   };
 
   const handleReroll = async (e) => {
     e.preventDefault();
     setExercises(null); // Set null for preview loading state
-    const exercisesRes = getExercises();
+    const originalRes = getOriginal();
     setTimeout(() => {
-      setExercises(exercisesRes);
-      console.log("exercisesRes", exercisesRes);
+      setExercises(originalRes);
     }, 500); // 500ms delay
   };
 
@@ -47,12 +49,12 @@ export default function WorkoutForm() {
           </select>
         </div>
         <div className="flex flex-col items-center gap-2 w-full">
-          <label htmlFor="difficulty" className="text-white font-semibold">
-            Difficulty:
+          <label htmlFor="wtype" className="text-white font-semibold">
+            Workout Type:
           </label>
           <select
-            id="difficulty"
-            name="difficulty"
+            id="wtype"
+            name="wtype"
             className="w-full p-2 rounded-md bg-slate text-white cursor-pointer"
           >
             <option value="original" className="bg-black">
@@ -60,11 +62,32 @@ export default function WorkoutForm() {
             </option>
           </select>
         </div>
+        <div className="flex flex-col items-center gap-2 w-full">
+          <label htmlFor="multiplier" className="text-white font-semibold">
+            Multiplier:
+          </label>
+          <select
+            id="multiplier"
+            name="multiplier"
+            onChange={(e) => setMultiplier(e.target.value)}
+            className="w-full p-2 rounded-md bg-slate text-white cursor-pointer"
+          >
+            <option value="1" className="bg-black">
+              x1 - Beginner
+            </option>
+            <option value="2" className="bg-black">
+              x2 - Advanced
+            </option>
+            <option value="3" className="bg-black">
+              x3 - Elite
+            </option>
+          </select>
+        </div>
         <button
           onClick={handleReroll}
           className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer hover:bg-green-600 transition"
         >
-          Reroll Exercises
+          Reroll Suits
         </button>
         <button
           type="submit"

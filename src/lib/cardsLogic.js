@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// API call to /api/deck/new
 export async function getDeck(deckSize) {
   try {
     const response = await axios.get("/api/deck/new", { params: { deckSize } });
@@ -11,6 +12,7 @@ export async function getDeck(deckSize) {
   }
 }
 
+// Function to get a new card and modify the deck
 export function drawCard(cardsArr) {
   try {
     const [drawnCard, ...cardsAfterDraw] = cardsArr;

@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { getExercises } from "@/lib/exercisesLogic";
+import { getOriginal } from "@/lib/original";
 import Loader from "@/components/Loader";
 
 // Component to display tables of exercises by group (push, pull, legs) with suit and type
 export default function WPreview() {
-  const { exercises, setExercises } = useWorkoutContext();
+  const { exercises, setExercises, multiplier } = useWorkoutContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isIndexOpen, setIsIndexOpen] = useState(false);
   const allExercises = { clubs: [], diamonds: [], hearts: [], spades: [] };
@@ -16,8 +16,8 @@ export default function WPreview() {
   useEffect(() => {
     const fetchExercises = () => {
       try {
-        const exercisesRes = getExercises();
-        setExercises(exercisesRes);
+        const originalRes = getOriginal();
+        setExercises(originalRes);
       } catch (error) {
         console.error("Error fetching exercises:", error);
       }
@@ -103,10 +103,23 @@ export default function WPreview() {
 
   // Data for the summary table
   const summaryData = [
-    { cardType: "Number Cards", sets: 9, repsTime: "2-10 reps" },
-    { cardType: "Royal Cards", sets: 3, repsTime: "10 reps" },
-    { cardType: "Aces", sets: 1, repsTime: "30/45/60 seconds" },
+    { cardType: "Numbers", sets: 9, value: "2-10" },
+    { cardType: "Royals", sets: 3, value: "5" },
+    { cardType: "Aces", sets: 1, value: "30" },
   ];
+  // Adjust reps/time based on multiplier
+  summaryData.forEach((row) => {
+    if (row.cardType === "Aces") {
+      row.value = `${parseInt(row.value) * multiplier} sec`;
+    } else if (row.cardType === "Royal Cards") {
+      row.value = `${parseInt(row.value) * multiplier} reps`;
+    } else {
+      row.value = `${row.value
+        .split("-")
+        .map((num) => parseInt(num) * multiplier)
+        .join("-")} reps`;
+    }
+  });
 
   return (
     <div className="w-full max-w-lg bg-slate rounded-lg text-center flex flex-col items-center gap-4">
@@ -145,7 +158,7 @@ export default function WPreview() {
                     <tr key={index} className="border-b border-gray-700">
                       <td className="py-2 px-4">{row.cardType}</td>
                       <td className="py-2 px-4">{row.sets}</td>
-                      <td className="py-2 px-4">{row.repsTime}</td>
+                      <td className="py-2 px-4">{row.value}</td>
                     </tr>
                   ))}
                 </tbody>

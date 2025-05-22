@@ -18,6 +18,9 @@ export function WorkoutProvider({ children }) {
   const [drawnCards, setDrawnCards] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
   const [clockStart, setClockStart] = useState(null);
+  const [multiplier, setMultiplier] = useState(1);
+  const [skippedCounter, setSkippedCounter] = useState(0);
+  const [tapOut, setTapOut] = useState(false);
 
   // Utility to sync to sessionStorage
   const saveToStorage = (key, value) => {
@@ -46,6 +49,9 @@ export function WorkoutProvider({ children }) {
     const storedWState = loadFromStorage("wState", "form");
     const storedDeckSize = loadFromStorage("deckSize", "full");
     const storedIsDeckFull = loadFromStorage("isDeckFull", true);
+    const storedMultiplier = loadFromStorage("multiplier", 1);
+    const storedSkippedCounter = loadFromStorage("skippedCounter", 0);
+    const storedTapOut = loadFromStorage("tapOut", false);
 
     setDeck(storedDeck);
     setExercises(storedExercises);
@@ -56,6 +62,9 @@ export function WorkoutProvider({ children }) {
     setWState(storedWState);
     setDeckSize(storedDeckSize);
     setIsDeckFull(storedIsDeckFull);
+    setMultiplier(storedMultiplier);
+    setSkippedCounter(storedSkippedCounter);
+    setTapOut(storedTapOut);
   }, []);
 
   // Sync each piece of state to sessionStorage
@@ -95,6 +104,18 @@ export function WorkoutProvider({ children }) {
     saveToStorage("isDeckFull", isDeckFull);
   }, [isDeckFull]);
 
+  useEffect(() => {
+    saveToStorage("multiplier", multiplier);
+  }, [multiplier]);
+
+  useEffect(() => {
+    saveToStorage("skippedCounter", skippedCounter);
+  }, [skippedCounter]);
+
+  useEffect(() => {
+    saveToStorage("tapOut", tapOut);
+  }, [tapOut]);
+
   // Utility to format clock (like 0:45:26)
   const formatClock = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
@@ -119,6 +140,9 @@ export function WorkoutProvider({ children }) {
     setDrawnCards([]);
     setCurrentExercise(null);
     setClockStart(null);
+    setMultiplier(1);
+    setSkippedCounter(0);
+    setTapOut(false);
     sessionStorage.clear();
   };
 
@@ -145,6 +169,12 @@ export function WorkoutProvider({ children }) {
         clockStart,
         setClockStart,
         formatClock,
+        multiplier,
+        setMultiplier,
+        skippedCounter,
+        setSkippedCounter,
+        tapOut,
+        setTapOut,
       }}
     >
       {children}

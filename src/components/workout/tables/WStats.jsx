@@ -4,7 +4,15 @@ import { useWorkoutContext } from "@/contexts/WorkoutContext";
 
 // Component to display a table of all exercises with name, suit, and reps completed
 export default function WStats() {
-  const { wStats } = useWorkoutContext();
+  const { wStats, skippedCounter, tapOut } = useWorkoutContext();
+  const medals = ["🥇 ", "🥈 ", "🥉 "];
+  const medal = tapOut
+    ? null
+    : skippedCounter === 0
+    ? medals[0]
+    : skippedCounter <= 10
+    ? medals[1]
+    : medals[2];
 
   // Parse wStats into an array of exercise objects
   const exerciseList = Object.entries(wStats).map(([key, reps]) => {
@@ -35,9 +43,11 @@ export default function WStats() {
 
   return (
     <div className="w-full max-w-lg bg-slate text-center flex flex-col items-center">
-      <div className="w-full">
-        <h3 className="text-lg font-semibold mb-2 text-left">Final Stats</h3>
-        <table className="w-full text-left border-collapse border border-gray-700 bg-gray-800">
+      <div className="w-full bg-gray-800 border border-gray-700 rounded-lg p-4">
+        <h3 className="text-lg font-semibold mb-2 text-left">
+          {medal}Final Stats
+        </h3>
+        <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-gray-600">
               <th className="py-2 px-4 font-semibold">Exercise</th>
@@ -58,7 +68,10 @@ export default function WStats() {
                     {exercise.suit === "spades" && "♠️"}
                     {exercise.suit === "diamonds" && "♦️"}
                   </td>
-                  <td className="py-2 px-4">{exercise.reps}</td>
+                  <td className="py-2 px-4">
+                    {exercise.reps}{" "}
+                    {exercise.group === "timed" ? "sec" : "reps"}
+                  </td>
                 </tr>
               ))
             ) : (
