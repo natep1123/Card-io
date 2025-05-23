@@ -1,4 +1,4 @@
-// This file contains the "original" exercises and logic for the workout generator.
+// This file contains "original" challenge data and logic.
 
 const original = {
   numberExercises: [

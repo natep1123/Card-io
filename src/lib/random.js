@@ -1,8 +1,52 @@
-// This file contains the logic for getting 3 random exercises per group (push, pull, legs, core) and assigning a suit to each exercise.
-// Each suit will have 3 random exercises (1 for number cards, 1 for royal cards, and 1 for aces).
-// Example: 2H = 2 Standard Pushups, KH = 10 Clap Pullups, AH = 15 Decline Pushups
+// This file contains the data and logic for generating random exercises for the workout.
 
-import { exercisesByGroup, timedChallenges } from "@/lib/exercisesDb";
+// Exercises pool for each group
+export const exercisesByGroup = {
+  push: [
+    { name: "Standard Pushups", unit: "reps", group: "push" },
+    { name: "Decline Pushups", unit: "reps", group: "push" },
+    { name: "Diamond Pushups", unit: "reps", group: "push" },
+    { name: "Archer Pushups", unit: "reps per side", group: "push" },
+    { name: "Clap Pushups", unit: "reps", group: "push" },
+  ],
+  pull: [
+    { name: "Pull-Ups", unit: "reps", group: "pull" },
+    { name: "Chin-Ups", unit: "reps", group: "pull" },
+    { name: "Horizontal Rows", unit: "reps", group: "pull" },
+    { name: "Archer Pullups", unit: "reps per side", group: "pull" },
+  ],
+  legs: [
+    { name: "Bodyweight Squats", unit: "reps", group: "legs" },
+    { name: "Lunges", unit: "reps per leg", group: "legs" },
+    { name: "Jump Squats", unit: "reps", group: "legs" },
+    { name: "Reverse Lunges", unit: "reps per leg", group: "legs" },
+  ],
+  core: [
+    { name: "Hanging Leg Raises", unit: "reps", group: "core" },
+    { name: "Situps", unit: "reps", group: "core" },
+    { name: "Floor Leg Raises", unit: "reps", group: "core" },
+    { name: "V-Ups", unit: "reps", group: "core" },
+  ],
+};
+
+// Exercises pool for timed challenges
+export const timedChallenges = {
+  challenges: [
+    { name: "Rest", unit: "sec", group: "timed" },
+    { name: "Plank", unit: "sec", group: "timed" },
+    { name: "Russian Twists", unit: "sec", group: "timed" },
+    { name: "Mountain Climbers", unit: "sec", group: "timed" },
+    {
+      name: "Side Plank",
+      unit: "sec per side",
+      group: "timed",
+    },
+    { name: "Jumping Jacks", unit: "sec", group: "timed" },
+    { name: "Wall Sit", unit: "sec", group: "timed" },
+    { name: "Bicycle Crunches", unit: "sec", group: "timed" },
+  ],
+  times: ["30", "45", "60"],
+};
 
 // Variables
 const groups = Object.keys(exercisesByGroup); // Push, pull, legs, core
