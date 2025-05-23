@@ -24,6 +24,7 @@ export default function WDisplay() {
     setCurrentExercise,
     clockStart,
     setClockStart,
+    setFinalTime,
     formatClock,
     multiplier,
     setSkippedCounter,
@@ -100,7 +101,7 @@ export default function WDisplay() {
         setDrawnCards((prev) => [...prev, { ...drawnCard, tilt }]);
         setDeck(newDeck);
       } else {
-        setWState("summary");
+        handleEnd();
       }
     } catch (error) {
       console.error("Error drawing card:", error);
@@ -144,6 +145,8 @@ export default function WDisplay() {
       setTapOut(true);
       setSkippedCounter((prev) => prev + deck.remaining);
     }
+    const elapsed = Math.floor((Date.now() - clockStart) / 1000);
+    setFinalTime(formatClock(elapsed));
     setWState("summary");
   };
 

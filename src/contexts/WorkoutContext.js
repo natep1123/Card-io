@@ -18,6 +18,7 @@ export function WorkoutProvider({ children }) {
   const [drawnCards, setDrawnCards] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
   const [clockStart, setClockStart] = useState(null);
+  const [finalTime, setFinalTime] = useState(null);
   const [multiplier, setMultiplier] = useState(1);
   const [skippedCounter, setSkippedCounter] = useState(0);
   const [tapOut, setTapOut] = useState(false);
@@ -46,6 +47,7 @@ export function WorkoutProvider({ children }) {
     const storedDrawnCards = loadFromStorage("drawnCards", []);
     const storedCurrentExercise = loadFromStorage("currentExercise", null);
     const storedClockStart = loadFromStorage("clockStart", null);
+    const storedFinalTime = loadFromStorage("finalTime", null);
     const storedWState = loadFromStorage("wState", "form");
     const storedDeckSize = loadFromStorage("deckSize", "full");
     const storedIsDeckFull = loadFromStorage("isDeckFull", true);
@@ -59,6 +61,7 @@ export function WorkoutProvider({ children }) {
     setDrawnCards(storedDrawnCards);
     setCurrentExercise(storedCurrentExercise);
     setClockStart(storedClockStart);
+    setFinalTime(storedFinalTime);
     setWState(storedWState);
     setDeckSize(storedDeckSize);
     setIsDeckFull(storedIsDeckFull);
@@ -91,6 +94,10 @@ export function WorkoutProvider({ children }) {
   useEffect(() => {
     saveToStorage("clockStart", clockStart);
   }, [clockStart]);
+
+  useEffect(() => {
+    saveToStorage("finalTime", finalTime);
+  }, [finalTime]);
 
   useEffect(() => {
     saveToStorage("wState", wState);
@@ -140,6 +147,7 @@ export function WorkoutProvider({ children }) {
     setDrawnCards([]);
     setCurrentExercise(null);
     setClockStart(null);
+    setFinalTime(null);
     setMultiplier(1);
     setSkippedCounter(0);
     setTapOut(false);
@@ -168,6 +176,8 @@ export function WorkoutProvider({ children }) {
         setCurrentExercise,
         clockStart,
         setClockStart,
+        finalTime,
+        setFinalTime,
         formatClock,
         multiplier,
         setMultiplier,

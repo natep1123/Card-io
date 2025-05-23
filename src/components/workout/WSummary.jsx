@@ -1,18 +1,11 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { useEffect, useState } from "react";
 import WStats from "./tables/WStats";
 
 export default function WSummary() {
-  const { resetWorkout, clockStart, formatClock, skippedCounter, deckSize } =
+  const { resetWorkout, finalTime, skippedCounter, deckSize } =
     useWorkoutContext();
-  const [clock, setClock] = useState(null);
-
-  useEffect(() => {
-    const elapsed = Math.floor((Date.now() - clockStart) / 1000);
-    setClock(elapsed);
-  }, [clockStart]);
 
   function handleClick() {
     resetWorkout();
@@ -26,7 +19,7 @@ export default function WSummary() {
           <tbody>
             <tr className="border-b border-gray-600">
               <td className="py-2 px-4">Total Time</td>
-              <td className="py-2 px-4 font-bold">{formatClock(clock)}</td>
+              <td className="py-2 px-4 font-bold">{finalTime}</td>
             </tr>
             <tr className="border-b border-gray-600">
               <td className="py-2 px-4">Total Cards</td>

@@ -4,7 +4,6 @@ import axios from "axios";
 export async function getDeck(deckSize) {
   try {
     const response = await axios.get("/api/deck/new", { params: { deckSize } });
-    console.log("/API/DECK/NEW ROUTE RESPONSE", response);
     return response.data;
   } catch (error) {
     console.error("Error fetching new deck:", error);
