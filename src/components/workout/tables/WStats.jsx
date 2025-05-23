@@ -4,15 +4,30 @@ import { useWorkoutContext } from "@/contexts/WorkoutContext";
 
 // Component to display a table of all exercises with name, suit, and reps completed
 export default function WStats() {
-  const { wStats, skippedCounter, tapOut } = useWorkoutContext();
+  const { wStats, skippedCounter, deckSize } = useWorkoutContext();
   const medals = ["🥇 ", "🥈 ", "🥉 "];
-  const medal = tapOut
-    ? null
-    : skippedCounter === 0
-    ? medals[0]
-    : skippedCounter <= 10
-    ? medals[1]
-    : medals[2];
+  let medal = null;
+  if (deckSize === "full") {
+    // 0 skips = gold; 1-10 skips = silver; 11-20 skips = bronze, >20 skips = no medal
+    medal =
+      skippedCounter === 0
+        ? medals[0]
+        : skippedCounter <= 10
+        ? medals[1]
+        : skippedCounter <= 20
+        ? medals[2]
+        : null;
+  } else if (deckSize === "half") {
+    // 0 skips = gold; 1-5 skips = silver; 6-10 skips = bronze; >10 skips = no medal
+    medal =
+      skippedCounter === 0
+        ? medals[0]
+        : skippedCounter <= 5
+        ? medals[1]
+        : skippedCounter <= 10
+        ? medals[2]
+        : null;
+  }
 
   // Parse wStats into an array of exercise objects
   const exerciseList = Object.entries(wStats).map(([key, reps]) => {
