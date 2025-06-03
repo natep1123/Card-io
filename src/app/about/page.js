@@ -16,10 +16,9 @@ export default function AboutPage() {
           <p>
             The goal of Card-io is to complete the entire deck of cards in a
             single workout. This is a high-volume challenge, so be sure to scale
-            the workout to your personal fitness level. You can choose between a
-            full deck (52 cards) or a half deck (26 cards) and a multiplier (x1,
-            x2, x3). If the exercise drawn is too difficult, listen to your body
-            and find an alternative if necessary.{" "}
+            the workout to your personal fitness level. If the exercise drawn is
+            too difficult, listen to your body and find an alternative if
+            necessary.{" "}
             <b>
               The goal is to challenge yourself, move your body, and improve
               over time, not to complete the entire deck at all costs.
@@ -37,11 +36,12 @@ export default function AboutPage() {
           </p>
           <p>
             The Card-io workout is designed to be scalable to your fitness
-            level, so you can adjust it as needed. Anytime, you can tap out to
-            end the workout early and view your results. Shuffling the deck
-            before each workout ensures that you will never do the same workout
-            twice. However, be aware that the deck is shuffled before being cut,
-            so the results for half-deck workouts are entirely random.
+            level, so you can adjust it as needed by deck size and a multiplier.
+            Anytime, you can skip a card or tap out to end the workout early and
+            view your results. Shuffling the deck before each workout ensures
+            that you will never do the same workout twice. However, be aware
+            that the deck is shuffled before being cut, so the results for
+            half-deck workouts are entirely random.
           </p>
         </div>
 
@@ -51,16 +51,21 @@ export default function AboutPage() {
             The original challenge consists of exercises from each of the 4
             primary muscle groups (push, pull, legs, and core), plus timed
             challenges. The original exercises are always the same, allowing you
-            to compare your performance over time. You can also modify the
-            challenge to your desired difficulty by selecting the deck size
-            (full or half) and a multiplier (x1, x2, or x3) to increase the
-            total volume.
+            to compare your performance over time.{" "}
+            <b>
+              You can modify the challenge to your desired difficulty by
+              selecting the deck size (full or half) and a multiplier (x1, x2,
+              or x3) to increase the total volume.
+            </b>
           </p>
           <p>
             Values for exercises are determined by card groupings. The base
-            values are as follows: number cards are worth their number in reps,
-            royal cards are worth 5 reps, and aces are worth 30 seconds. For
-            example, if hearts are assigned to push exercises, then the 2 of
+            values are as follows:{" "}
+            <b>
+              number cards are worth their number in reps, royal cards are worth
+              5 reps, and aces are worth 30 seconds.
+            </b>{" "}
+            For example, if hearts are assigned to push exercises, then the 2 of
             hearts would be 2 push-ups, the 3 of hearts would be 3 push-ups, and
             so on up to the 10 of hearts which would be 10 push-ups. The Jack,
             Queen, and King of hearts would each be worth 5 dips, and the Ace of
