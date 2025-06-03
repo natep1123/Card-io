@@ -40,8 +40,8 @@ export default function AboutPage() {
             Card-io is a fun and challenging way to get a full-body workout. It
             is recommended to begin with the x1 multiplier if you are new to it,
             and a half deck if you want to test it out with lower volume.
-            Anytime, you can "tap out" to end the workout early and view your
-            results. If you are looking for increased intensity, you can
+            Anytime, you can &quottap out&quot to end the workout early and view
+            your results. If you are looking for increased intensity, you can
             increase the multiplier to x2 or x3. The Card-io workout is designed
             to be scalable to your fitness level, so you can adjust it as
             needed. Shuffling the deck before each workout ensures that you will
