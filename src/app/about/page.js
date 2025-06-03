@@ -11,7 +11,7 @@ export default function AboutPage() {
             (2-10), 3 royal cards (Jack, Queen, King), and an ace. Shuffling a
             deck creates 52 factorial (52!) possibilities, which translates to
             over 8 quintillion (8,000,000,000,000,000,000,000) unique sequences,
-            ensuring no two Card-io workouts are ever alike.{" "}
+            ensuring no two Card-io workouts are ever alike.
           </p>
           <p>
             The goal of Card-io is to complete the entire deck of cards in a
@@ -29,25 +29,37 @@ export default function AboutPage() {
             Some quick ways to make an exercise easier include: reducing the
             number of reps entirely, breaking the reps into smaller sets,
             finding an easier alternative exercise, or any combination thereof.
-            For example, if you draw a card that requires 10 push-ups, you could
-            instead do 1 set of your limit, 2 sets of 5, switch to knee
-            push-ups, etc. If you draw a card that requires 30 seconds of
-            planks, you could do one set of your limit, 2 sets of 15 seconds,
-            switch to a wall plank, etc.{" "}
-            <b>Get creative and find what works for you!</b>
+            For example, if you draw a card that requires 10 pushups, you could
+            instead do 1 set of your limit, 2 sets of 5, switch to knee pushups,
+            etc. If you draw a card that requires 30 seconds of planks, you
+            could do one set of your limit, 2 sets of 15 seconds, switch to a
+            wall plank, etc. <b>Get creative and find what works for you!</b>
           </p>
           <p>
             Card-io is a fun and challenging way to get a full-body workout. It
             is recommended to begin with the x1 multiplier if you are new to it,
             and a half deck if you want to test it out with lower volume.
-            Anytime, you can &quottap out&quot to end the workout early and view
-            your results. If you are looking for increased intensity, you can
+            Anytime, you can tap out to end the workout early and view your
+            results. If you are looking for increased intensity, you can
             increase the multiplier to x2 or x3. The Card-io workout is designed
             to be scalable to your fitness level, so you can adjust it as
             needed. Shuffling the deck before each workout ensures that you will
             never do the same workout twice. However, be aware that the deck is
             shuffled before being cut, so the results for half-deck workouts are
             entirely random.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-4 rounded-lg bg-gray-800 p-4">
+          <h3 className="font-semibold text-lg">How It Works</h3>
+          <p>
+            The original challenge consists of exercises from each of the 4
+            primary muscle groups (push, pull, legs, and core), plus timed
+            challenges. The original exercises are always the same, allowing you
+            to compare your performance over time. You can also modify the
+            challenge to your desired difficulty by selecting the deck size
+            (full or half) and a multiplier (x1, x2, or x3) to increase the
+            total volume.
           </p>
           <p>
             Values for exercises are determined by card groupings. The base
@@ -60,6 +72,9 @@ export default function AboutPage() {
             hearts would be worth 30 seconds of planks. The same applies to the
             other suits for pull, legs, and core exercises.
           </p>
+        </div>
+        <div className="flex flex-col gap-4 rounded-lg bg-gray-800 p-4">
+          <h3 className="font-semibold text-lg">How much Volume?</h3>
           <p>
             To calculate the volume (total reps and/or time) of a Card-io
             workout, we can first determine the reps for each exercise type
