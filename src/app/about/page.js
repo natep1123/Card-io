@@ -77,12 +77,13 @@ export default function AboutPage() {
           <h3 className="font-semibold text-lg">How much Volume?</h3>
           <p>
             To calculate the volume (total reps and/or time) of a Card-io
-            workout, we can first determine the reps for each exercise type
-            (number, royal, ace). If you complete all the reps for a number
-            exercise, you will complete 9 sets of 2-10 reps (2+3+4+5+...+10)
-            totaling 54 reps. Royal exercises consist of 3 sets of 5 reps,
-            totaling 15. Aces are 1 set each of 30 seconds. The total volume for
-            a workout is the sum of reps/time from all the completed exercises.
+            workout using a x1 multiplier, we can first determine the reps for
+            each exercise by card grouping (number, royal, ace). If you complete
+            all the reps for a number exercise, you will complete 9 sets of 2-10
+            reps (2+3+4+5+...+10) totaling 54 reps. Royal exercises consist of 3
+            sets of 5 reps, totaling 15. Aces are 1 set each of 30 seconds. The
+            total volume for a workout is the sum of reps/time from all the
+            completed exercises.
           </p>
           <div>
             Assuming you complete all 52 cards in the deck with a x1 multiplier,
