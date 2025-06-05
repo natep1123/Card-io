@@ -3,7 +3,7 @@ import axios from "axios";
 // API call to /api/deck/new
 export async function getDeck(deckSize) {
   try {
-    const response = await axios.get("/api/deck/new", { params: { deckSize } });
+    const response = await axios.get("/api/new/deck", { params: { deckSize } });
     return response.data;
   } catch (error) {
     console.error("Error fetching new deck:", error);
