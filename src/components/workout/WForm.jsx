@@ -1,26 +1,26 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { getOriginal } from "@/lib/original";
+import { rerollSuits } from "@/lib/index";
 
 export default function WorkoutForm() {
-  const { setWState, setDeckSize, setExercises, setMultiplier } =
+  const { setWState, setDeckSize, exercises, setExercises, setMultiplier } =
     useWorkoutContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDeckSize(e.target.deckSize.value);
     setMultiplier(e.target.multiplier.value);
-    const wtype = e.target.wtype.value; // placeholder for future workout types (AI generated, etc)
+    const wtype = e.target.wtype.value; // placeholder for future workout types
     setWState("workout");
   };
 
   const handleReroll = async (e) => {
     e.preventDefault();
     setExercises(null); // Set null for preview loading state
-    const originalRes = getOriginal();
+    const rerolled = rerollSuits(exercises);
     setTimeout(() => {
-      setExercises(originalRes);
+      setExercises(rerolled);
     }, 500); // 500ms delay
   };
 

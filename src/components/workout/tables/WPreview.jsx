@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { getOriginal } from "@/lib/original";
+import { getWorkout } from "@/lib/index";
 import Loader from "@/components/Loader";
 
 // Component to display tables of exercises by group (push, pull, legs) with suit and type
@@ -14,10 +14,10 @@ export default function WPreview() {
 
   // Fetch exercises on mount
   useEffect(() => {
-    const fetchExercises = () => {
+    const fetchExercises = async () => {
       try {
-        const originalRes = getOriginal();
-        setExercises(originalRes);
+        const res = await getWorkout("original");
+        setExercises(res);
       } catch (error) {
         console.error("Error fetching exercises:", error);
       }

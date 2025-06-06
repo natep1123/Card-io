@@ -4,8 +4,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
-import { getOriginalByCard } from "@/lib/original";
-import { getDeck, drawCard } from "@/lib/cardsLogic";
+import { getDeck, drawCard, getExerciseByCard } from "@/lib/index";
 import Loader from "../Loader";
 
 export default function WDisplay() {
@@ -90,7 +89,7 @@ export default function WDisplay() {
         drawnCard.suit = drawnCard.suit.toLowerCase();
         const tilt = Math.floor(Math.random() * 21) - 10;
 
-        const exercise = getOriginalByCard(drawnCard, exercises, multiplier);
+        const exercise = getExerciseByCard(drawnCard, exercises, multiplier);
         const key = `${exercise.name}-${exercise.suit}-${exercise.group}`;
 
         setWStats((prev) => ({
