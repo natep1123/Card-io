@@ -14,7 +14,10 @@
 **workoutSchema:**
 
 - type: {type: String, required: true},
-- exercises: {numberExercises: [exerciseSchema], royalExercises: [exerciseSchema], aceExercises: [exerciseSchema]},
+- exercises: {
+  - numberExercises: [exerciseSchema]
+  - royalExercises: [exerciseSchema]
+  - aceExercises: [exerciseSchema]},
 - id
 
 ## Summary
@@ -25,8 +28,20 @@ The original workout/challenge (not custom by the user) will have one push, pull
 
 **original:**:
 
-- type: "original",
+- type: "original"
 - exercises:
-  - numberExercises: [{ name: "Pushups", unit: "reps", group: "push" }, { name: "Horizontal Rows", unit: "reps", group: "pull" }, { name: "Squats", unit: "reps", group: "legs" }, { name: "Mountain Climbers", unit: "reps", group: "core" }],
-  - royalExercises: [ { name: "Dips", unit: "reps", group: "push" }, { name: "Pullups", unit: "reps", group: "pull" }, { name: "Lunges", unit: "reps", group: "legs" }, { name: "Hanging Leg Raises", unit: "reps", group: "core" }],
-  - aceExercises: [ { name: "Plank", unit: "seconds", group: "timed" }, { name: "Plank", unit: "seconds", group: "timed" }, { name: "Side Plank", unit: "seconds", group: "timed" }, { name: "Side Plank", unit: "seconds", group: "timed" }]
+  - numberExercises:
+    - { name: "Pushups", unit: "reps", group: "push" },
+    - { name: "Horizontal Rows", unit: "reps", group: "pull" },
+    - { name: "Squats", unit: "reps", group: "legs" },
+    - { name: "Mountain Climbers", unit: "reps", group: "core" }
+  - royalExercises:
+    - { name: "Dips", unit: "reps", group: "push" },
+    - { name: "Pullups", unit: "reps", group: "pull" },
+    - { name: "Lunges", unit: "reps", group: "legs" },
+    - { name: "Hanging Leg Raises", unit: "reps", group: "core" }
+  - aceExercises:
+    - { name: "Plank", unit: "seconds", group: "timed" },
+    - { name: "Plank", unit: "seconds", group: "timed" },
+    - { name: "Side Plank", unit: "seconds", group: "timed" },
+    - { name: "Side Plank", unit: "seconds", group: "timed" }
