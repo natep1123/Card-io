@@ -16,7 +16,6 @@ export async function GET(req) {
     const res = await Workout.findOne({
       type: workoutType,
     });
-    console.log("Fetched workout:", res);
 
     return NextResponse.json({ workout: res }, { status: 200 });
   } catch (error) {
