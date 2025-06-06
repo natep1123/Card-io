@@ -22,7 +22,7 @@ function assignSuit(exerciseArr, shuffledSuits) {
   return exerciseArr;
 }
 
-// Helper; Function to reroll suits
+// Function to reroll suits
 export function rerollSuits(exercisesArr) {
   const shuffledSuits = shuffleSuits();
   return {
