@@ -1,8 +1,8 @@
 # API Route Specifications
 
-## **Pages:**
+## Pages:
 
-**API Endpoint = GET => “/login” => Login Page**
+**API Endpoint = GET => “/ => Home Page**
 
 - This endpoint will show the home page containing an introduction to the app and two navigation buttons to direct the user to the workout and about pages.
 
@@ -17,7 +17,7 @@
 
 - This endpoint shows the about page, detailing information about how the app works.
 
-## **Data Fetching:**
+## Data Fetching
 
 **API Endpoint = GET => “/deck/new => Result**
 

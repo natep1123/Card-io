@@ -2,16 +2,12 @@
 
 ## Individual Exercises
 
-**exerciseSchema:**
-
 - name: {type: String, required: true}
 - unit: {type: String, required: true, enum: ["reps", "seconds"]}
 - group: {type: String, required: true, enum: ["push", "pull", "legs", "core", "timed"]}
 - No id for subdocuments
 
 ## Workouts (Set of Exercises)
-
-**workoutSchema:**
 
 - id
 - type: {type: String, required: true}
