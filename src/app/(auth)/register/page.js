@@ -6,7 +6,7 @@ export default async function RegisterPage() {
   // Auth check; redirect logged-in users to home
   const session = await auth();
   if (session) {
-    redirect("/home");
+    redirect("/");
   }
 
   return (

@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { registerUser } from "@/lib/index";
 import Loader from "./Loader";
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -23,39 +24,24 @@ export default function RegisterForm() {
     const trimmedPassword = password.trim();
 
     if (!trimmedEmail || !trimmedPassword) {
-      setError("All fields are required.");
-      setLoading(false);
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(trimmedEmail)) {
-      setError("Please enter a valid email.");
-      setLoading(false);
-      return;
-    }
-    if (trimmedPassword.length < 6) {
-      setError("Password must be at least 6 characters.");
+      setError("Email and password are required.");
       setLoading(false);
       return;
     }
 
-    // API Call
-    try {
-      let response = await registerUser(trimmedEmail, trimmedPassword);
+    // API call
+    const result = await signIn("credentials", {
+      email: trimmedEmail,
+      password: trimmedPassword,
+      redirect: false,
+    });
 
-      if (response.status === 201) {
-        const form = e.target;
-        form.reset();
-        router.push("/login");
-      } else {
-        setError(response.data?.message || "Registration failed.");
-        setLoading(false);
-      }
-    } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "An error occurred during registration."
-      );
+    // Handle response
+    if (result?.error) {
+      setError("Incorrect email or password.");
       setLoading(false);
+    } else if (result?.ok) {
+      router.push("/");
     }
   };
 
@@ -64,7 +50,7 @@ export default function RegisterForm() {
       {loading && <Loader isLoading={loading} />}
       {!loading && (
         <>
-          <h2 className="mb-6 text-white text-2xl font-semibold">Register</h2>
+          <h2 className="mb-6 text-white text-2xl font-semibold">Login</h2>
           <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center gap-4 p-6 rounded-lg bg-black border border-white w-full max-w-sm shadow-lg shadow-green-400/40"
@@ -98,7 +84,7 @@ export default function RegisterForm() {
               className="w-full py-3 rounded-md bg-gray-700 text-white font-semibold cursor-pointer hover:bg-gray-600 transition"
               disabled={loading}
             >
-              Register
+              Login
             </button>
             {error && (
               <div className="bg-red-500 text-white text-sm py-1 px-3 rounded-md mt-2 w-fit mx-auto text-center">
@@ -106,9 +92,9 @@ export default function RegisterForm() {
               </div>
             )}
             <span className="text-center text-gray text-sm">
-              Already have an account?{" "}
-              <Link href="/login" className="text-white underline">
-                Login
+              Don't have an account?{" "}
+              <Link href="/register" className="underline text-white">
+                Register
               </Link>
             </span>
           </form>
