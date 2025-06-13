@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { auth } from "@/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  console.log("Session:", session);
+
   const intro = [
     "Ready to take a gamble on an intense workout challenge?",
     "Card-io uses the Deck of Cards API to randomize full-body workout challenges.",
@@ -36,18 +40,20 @@ export default function Home() {
         >
           How Does It Work?
         </Link>
-        <div className="flex flex-col gap-2 text-gray">
-          <span>Want to save your stats?</span>
-          <div className="flex flex-row justify-evenly">
-            <Link href="/login" className="text-white underline">
-              Login
-            </Link>
-            <span className="mx-2">or</span>
-            <Link href="/register" className="text-white underline">
-              Register
-            </Link>
+        {!session && (
+          <div className="flex flex-col gap-2 text-gray">
+            <span>Want to save your stats?</span>
+            <div className="flex flex-row justify-evenly">
+              <Link href="/login" className="text-white underline">
+                Login
+              </Link>
+              <span className="mx-2">or</span>
+              <Link href="/register" className="text-white underline">
+                Register
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
