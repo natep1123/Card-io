@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import ClientProviders from "@/components/ClientProviders";
+import { auth } from "@/auth";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,7 +19,9 @@ export const metadata = {
   description: "Card-based workout generator using Deck of Cards API.",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await auth();
+  const initialSession = !!session;
   return (
     <html lang="en">
       <body
@@ -26,7 +29,7 @@ export default function RootLayout({ children }) {
       >
         <ClientProviders>
           <div className="flex flex-col min-h-screen">
-            <Header />
+            <Header isSession={initialSession} />
             <main className="p-4 h-full flex flex-col items-center">
               {children}
             </main>

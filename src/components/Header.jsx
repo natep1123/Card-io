@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
-export default function Header() {
+export default function Header({ isSession: initialSession }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // Pathname for highlighting the active link
+  const [isSession, setIsSession] = useState(initialSession); // Initialize with server value
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+
   const pages = [
     { name: "Home", path: "/" },
     { name: "Workout", path: "/workout" },
@@ -16,9 +18,20 @@ export default function Header() {
     { name: "About", path: "/about" },
   ];
 
-  // Toggle function for the mobile menu
+  // Sync client-side session state after hydration
+  useEffect(() => {
+    if (status !== "loading") {
+      setIsSession(!!session); // Update isSession once session is resolved
+    }
+  }, [status, session]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSignout = () => {
+    signOut({ callbackUrl: "/" });
+    setIsOpen(false);
   };
 
   return (
@@ -35,7 +48,7 @@ export default function Header() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 Card-io
               </h1>
-              <p className="text-sm sm:text-base italic text-gray">
+              <p className="text-sm sm:text-base italic text-gray-500">
                 The deck of cards workout challenge!
               </p>
             </div>
@@ -54,18 +67,35 @@ export default function Header() {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex gap-4">
+        <nav className="hidden md:flex gap-4 items-center">
           {pages.map((page) => (
             <Link
               key={page.name}
-              href={`${page.path}`}
+              href={page.path}
               className={`text-md font-semibold ${
-                pathname === `${page.path}` ? "text-red" : "text-white"
+                pathname === page.path ? "text-red" : "text-white"
               }`}
             >
               {page.name}
             </Link>
           ))}
+          {isSession ? (
+            <button
+              onClick={handleSignout}
+              className="text-md font-semibold text-white cursor-pointer"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className={`text-md font-semibold ${
+                pathname === "/login" ? "text-red" : "text-white"
+              }`}
+            >
+              Login
+            </Link>
+          )}
         </nav>
       </div>
 
@@ -76,15 +106,33 @@ export default function Header() {
             {pages.map((page) => (
               <Link
                 key={page.name}
-                href={`${page.path}`}
+                href={page.path}
                 onClick={() => setIsOpen(false)}
                 className={`text-md font-semibold ${
-                  pathname === `${page.path}` ? "text-red" : "text-white"
+                  pathname === page.path ? "text-red" : "text-white"
                 }`}
               >
                 {page.name}
               </Link>
             ))}
+            {isSession ? (
+              <button
+                onClick={handleSignout}
+                className="text-md font-semibold text-white text-left"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setIsOpen(false)}
+                className={`text-md font-semibold ${
+                  pathname === "/login" ? "text-red" : "text-white"
+                }`}
+              >
+                Login
+              </Link>
+            )}
           </div>
         </nav>
       )}
