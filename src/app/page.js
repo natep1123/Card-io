@@ -36,21 +36,17 @@ export default function Home() {
         >
           How Does It Work?
         </Link>
-        <div className="flex flex-col gap-2 text-gray text-sm">
-          <span>
-            {" "}
-            Have an account?{" "}
+        <div className="flex flex-col gap-2 text-gray">
+          <span>Want to save your stats?</span>
+          <div className="flex flex-row justify-evenly">
             <Link href="/login" className="text-white underline">
               Login
             </Link>
-          </span>
-          <span>
-            {" "}
-            Don't have an account?{" "}
+            <span className="mx-2">or</span>
             <Link href="/register" className="text-white underline">
               Register
             </Link>
-          </span>
+          </div>
         </div>
       </div>
     </div>
