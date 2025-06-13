@@ -7,8 +7,18 @@ export default function WSummary() {
   const { resetWorkout, finalTime, skippedCounter, deckSize } =
     useWorkoutContext();
 
-  function handleClick() {
+  function handleReset() {
+    // Check if the user really wants to reset
+    const confirmReset = window.confirm(
+      "Are you sure you want to reset the workout? This will clear all stats."
+    );
+    if (!confirmReset) return;
     resetWorkout();
+  }
+
+  function handleSave() {
+    // Alert the user that save functionality is not implemented
+    alert("Save functionality is not implemented yet.");
   }
 
   return (
@@ -35,12 +45,20 @@ export default function WSummary() {
         </table>
       </div>
       <WStats />
-      <button
-        onClick={handleClick}
-        className="px-4 py-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 transition"
-      >
-        Reset
-      </button>
+      <div className="flex flex-row gap-4">
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 transition"
+        >
+          Reset
+        </button>
+        <button
+          onClick={handleSave}
+          className="px-4 py-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 transition"
+        >
+          Save Stats
+        </button>
+      </div>
     </div>
   );
 }

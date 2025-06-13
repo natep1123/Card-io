@@ -29,6 +29,8 @@ export default function WStats() {
         : null;
   }
 
+  console.log("wStats:", wStats);
+
   // Parse wStats into an array of exercise objects
   const exerciseList = Object.entries(wStats).map(([key, reps]) => {
     const parts = key.split("-");

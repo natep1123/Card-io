@@ -23,7 +23,7 @@ export default function Home() {
       </div>
 
       {/* Buttons */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 text-center">
         <Link
           href="/workout"
           className="bg-red font-semibold rounded-md px-6 py-3 text-center hover:bg-red-600 transition"
@@ -36,6 +36,20 @@ export default function Home() {
         >
           How Does It Work?
         </Link>
+        <span>
+          {" "}
+          Have an account?{" "}
+          <Link href="/login" className="underline">
+            Login
+          </Link>
+        </span>
+        <span>
+          {" "}
+          Don't have an account?{" "}
+          <Link href="/register" className="underline">
+            Register
+          </Link>
+        </span>
       </div>
     </div>
   );

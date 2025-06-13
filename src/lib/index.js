@@ -35,7 +35,7 @@ export function rerollSuits(exercisesArr) {
 // API call to /api/deck/new
 export async function getDeck(deckSize) {
   try {
-    const response = await axios.get("/api/new/deck", { params: { deckSize } });
+    const response = await axios.get("/api/get/deck", { params: { deckSize } });
     return response.data;
   } catch (error) {
     console.error("Error fetching new deck:", error);
@@ -63,7 +63,7 @@ export async function getWorkout(type) {
   try {
     const shuffledSuits = shuffleSuits();
 
-    const res = await axios.get(`/api/new/workout`, { params: { type } });
+    const res = await axios.get(`/api/get/workout`, { params: { type } });
     console.log("Fetched workout:", res);
     const workout = res.data.workout;
 

@@ -12,6 +12,7 @@ export default function Header() {
   const pages = [
     { name: "Home", path: "/" },
     { name: "Workout", path: "/workout" },
+    { name: "Profile", path: "/profile" },
     { name: "About", path: "/about" },
   ];
 

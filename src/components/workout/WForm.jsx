@@ -85,13 +85,13 @@ export default function WorkoutForm() {
         </div>
         <button
           onClick={handleReroll}
-          className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer hover:bg-green-600 transition"
+          className="w-full py-3 rounded-md bg-red text-white font-semibold cursor-pointer hover:bg-red-600 transition"
         >
           Reroll Suits
         </button>
         <button
           type="submit"
-          className="w-full py-3 rounded-md bg-red text-white font-semibold cursor-pointer hover:bg-red-600 transition"
+          className="w-full py-3 rounded-md bg-green text-white font-semibold cursor-pointer hover:bg-green-600 transition"
         >
           Start Workout
         </button>
