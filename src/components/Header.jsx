@@ -30,6 +30,9 @@ export default function Header({ isSession: initialSession }) {
   };
 
   const handleSignout = () => {
+    // Confirm sign out
+    const confirmSignout = window.confirm("Are you sure you want to log out?");
+    if (!confirmSignout) return;
     signOut({ callbackUrl: "/" });
     setIsOpen(false);
   };
