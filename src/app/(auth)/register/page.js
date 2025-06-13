@@ -1,6 +1,6 @@
-//import RegisterForm from "../../../components/RegisterForm";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import RegisterForm from "@/components/RegisterForm";
 
 export default async function RegisterPage() {
   // Auth check; redirect logged-in users to home
@@ -9,5 +9,9 @@ export default async function RegisterPage() {
     redirect("/home");
   }
 
-  return <main className="p-4">Register form</main>;
+  return (
+    <main className="p-4">
+      <RegisterForm />
+    </main>
+  );
 }

@@ -107,3 +107,13 @@ export function getExerciseByCard(card, pool, multiplier) {
     value,
   };
 }
+
+export async function registerUser(email, password) {
+  try {
+    const response = await axios.post("/api/register", { email, password });
+    return response;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+}
