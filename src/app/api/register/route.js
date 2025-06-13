@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db";
-import User from "@/models/User";
+import { getUserModel } from "@/models/User";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
@@ -15,6 +15,8 @@ export async function POST(req) {
         { status: 400 }
       );
     }
+
+    const User = getUserModel();
 
     await connectDB();
 

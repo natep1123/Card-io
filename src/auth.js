@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
-import User from "@/models/User";
+import { getUserModel } from "@/models/User";
 
 // This file handles authentication using NextAuth.js v5.
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -20,7 +20,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         await connectDB();
 
+        const User = getUserModel();
         const user = await User.findOne({ email: credentials.email });
+
         if (!user) {
           throw new Error("No user found with this email");
         }
@@ -29,6 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           credentials.password,
           user.password
         );
+
         if (!isPasswordValid) {
           throw new Error("Invalid password");
         }
