@@ -36,20 +36,22 @@ export default function Home() {
         >
           How Does It Work?
         </Link>
-        <span>
-          {" "}
-          Have an account?{" "}
-          <Link href="/login" className="underline">
-            Login
-          </Link>
-        </span>
-        <span>
-          {" "}
-          Don't have an account?{" "}
-          <Link href="/register" className="underline">
-            Register
-          </Link>
-        </span>
+        <div className="flex flex-col gap-2">
+          <span>
+            {" "}
+            Have an account?{" "}
+            <Link href="/login" className="underline">
+              Login
+            </Link>
+          </span>
+          <span>
+            {" "}
+            Don't have an account?{" "}
+            <Link href="/register" className="underline">
+              Register
+            </Link>
+          </span>
+        </div>
       </div>
     </div>
   );
