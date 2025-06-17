@@ -3,8 +3,11 @@
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
 import { saveStats, formatStats } from "@/lib";
 import WStats from "./tables/WStats";
+import { useSession } from "next-auth/react";
 
 export default function WSummary() {
+  const { data: session } = useSession();
+
   const {
     resetWorkout,
     finalTime,
@@ -17,6 +20,7 @@ export default function WSummary() {
   } = useWorkoutContext();
 
   const formattedStats = formatStats(wStats, wTotals, deckSize, finalTime);
+
   const { push, pull, legs, core } = formattedStats.stats;
 
   function handleReset() {
@@ -31,6 +35,9 @@ export default function WSummary() {
   async function handleSave() {
     if (isSaved) {
       alert("Stats have already been saved. You cannot save again.");
+      return;
+    } else if (!session) {
+      alert("You must be logged in to save stats.");
       return;
     }
 

@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import { useWorkoutContext } from "@/contexts/WorkoutContext";
 
 export default function Header({ isSession: initialSession }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSession, setIsSession] = useState(initialSession); // Initialize with server value
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const { resetWorkout } = useWorkoutContext();
 
   const pages = [
     { name: "Home", path: "/" },
@@ -31,10 +33,13 @@ export default function Header({ isSession: initialSession }) {
 
   const handleSignout = () => {
     // Confirm sign out
-    const confirmSignout = window.confirm("Are you sure you want to log out?");
+    const confirmSignout = window.confirm(
+      "Are you sure you want to log out? Unsaved workout stats will be lost."
+    );
     if (!confirmSignout) return;
     signOut({ callbackUrl: "/" });
     setIsOpen(false);
+    resetWorkout(); // Reset workout states on sign out
   };
 
   return (
