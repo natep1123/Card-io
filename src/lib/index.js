@@ -190,18 +190,30 @@ export function formatStats(wStats, wTotals, deckSize, finalTime) {
       push: {
         completed: completedByGroup.push,
         total: totalByGroup.push,
+        percentage: parseFloat(
+          ((completedByGroup.push / totalByGroup.push) * 100).toFixed(1)
+        ),
       },
       pull: {
         completed: completedByGroup.pull,
         total: totalByGroup.pull,
+        percentage: parseFloat(
+          ((completedByGroup.pull / totalByGroup.pull) * 100).toFixed(1)
+        ),
       },
       legs: {
         completed: completedByGroup.legs,
         total: totalByGroup.legs,
+        percentage: parseFloat(
+          ((completedByGroup.legs / totalByGroup.legs) * 100).toFixed(1)
+        ),
       },
       core: {
         completed: completedByGroup.core,
         total: totalByGroup.core,
+        percentage: parseFloat(
+          ((completedByGroup.core / totalByGroup.core) * 100).toFixed(1)
+        ),
       },
     },
     deckSize: deckSize,

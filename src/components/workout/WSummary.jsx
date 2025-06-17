@@ -16,6 +16,9 @@ export default function WSummary() {
     setIsSaved,
   } = useWorkoutContext();
 
+  const formattedStats = formatStats(wStats, wTotals, deckSize, finalTime);
+  const { push, pull, legs, core } = formattedStats.stats;
+
   function handleReset() {
     // Check if the user really wants to reset
     const confirmReset = window.confirm(
@@ -30,8 +33,6 @@ export default function WSummary() {
       alert("Stats have already been saved. You cannot save again.");
       return;
     }
-
-    const formattedStats = formatStats(wStats, wTotals, deckSize, finalTime);
 
     const res = await saveStats(formattedStats);
     if (res.status === 201) {
@@ -66,6 +67,16 @@ export default function WSummary() {
         </table>
       </div>
       <WStats />
+      {/* Displaying percentages for each category */}
+      <div className="w-full flex flex-col items-center text-white">
+        <h3 className="text-lg font-semibold mb-2">Completion Percentages</h3>
+        <ul className="list-disc pl-5">
+          <li>Push: {push.percentage}%</li>
+          <li>Pull: {pull.percentage}%</li>
+          <li>Legs: {legs.percentage}%</li>
+          <li>Core: {core.percentage}%</li>
+        </ul>
+      </div>
       <div className="flex flex-row gap-4">
         <button
           onClick={handleReset}

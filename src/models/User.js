@@ -7,18 +7,22 @@ const workoutStatsSchema = new mongoose.Schema(
       push: {
         completed: { type: Number, default: 0, min: 0 },
         total: { type: Number, default: 0, min: 0 },
+        percentage: { type: Number, default: 0, min: 0, max: 100 },
       },
       pull: {
         completed: { type: Number, default: 0, min: 0 },
         total: { type: Number, default: 0, min: 0 },
+        percentage: { type: Number, default: 0, min: 0, max: 100 },
       },
       legs: {
         completed: { type: Number, default: 0, min: 0 },
         total: { type: Number, default: 0, min: 0 },
+        percentage: { type: Number, default: 0, min: 0, max: 100 },
       },
       core: {
         completed: { type: Number, default: 0, min: 0 },
         total: { type: Number, default: 0, min: 0 },
+        percentage: { type: Number, default: 0, min: 0, max: 100 },
       },
     },
     deckSize: {
