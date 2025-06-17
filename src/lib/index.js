@@ -64,7 +64,6 @@ export async function getWorkout(type) {
     const shuffledSuits = shuffleSuits();
 
     const res = await axios.get(`/api/get/workout`, { params: { type } });
-    console.log("Fetched workout:", res);
     const workout = res.data.workout;
 
     const { numberExercises, royalExercises, aceExercises } = workout.exercises;
@@ -108,6 +107,7 @@ export function getExerciseByCard(card, pool, multiplier) {
   };
 }
 
+// Function to register a new user
 export async function registerUser(email, password) {
   try {
     const response = await axios.post("/api/register", { email, password });
@@ -116,4 +116,97 @@ export async function registerUser(email, password) {
     console.error("Error during registration:", error);
     throw error;
   }
+}
+
+// Function to save workout stats
+export async function saveStats(formattedStats) {
+  try {
+    return await axios.post("/api/save/stats", formattedStats);
+  } catch (error) {
+    console.error("Error saving stats:", error);
+    throw error;
+  }
+}
+
+// Function to parse workout stats and sort them (for summary table)
+export function parseStats(stats) {
+  // Parse wStats into an array of exercise objects'
+  const exerciseList = Object.entries(stats).map(([key, reps]) => {
+    const parts = key.split("-");
+    const group = parts.pop(); // Last part is group
+    const suit = parts.pop(); // Second-to-last part is suit
+    const name = parts.join("-"); // Everything else is the name
+    return {
+      name,
+      group,
+      suit,
+      reps: typeof reps === "string" ? parseInt(reps, 10) : reps,
+    };
+  });
+
+  // Define group order
+  const groupOrder = ["push", "pull", "legs", "core", "timed"];
+
+  // Sort exercises by group order and then by reps (descending)
+  exerciseList.sort((a, b) => {
+    const groupA = groupOrder.indexOf(a.group);
+    const groupB = groupOrder.indexOf(b.group);
+    if (groupA !== groupB) {
+      return groupA - groupB; // Sort by group order
+    }
+    return b.reps - a.reps; // Sort by reps (highest to lowest)
+  });
+
+  return exerciseList;
+}
+
+export function formatStats(wStats, wTotals, deckSize, finalTime) {
+  const parsedStats = parseStats(wStats);
+  const parsedTotals = parseStats(wTotals);
+  const groups = ["push", "pull", "legs", "core"]; //exclude timed
+  const completedByGroup = {};
+  const totalByGroup = {};
+
+  // Initialize group totals
+  groups.forEach((group) => {
+    completedByGroup[group] = 0;
+    totalByGroup[group] = 0;
+  });
+
+  parsedStats.forEach(({ group, reps }) => {
+    if (groups.includes(group)) {
+      completedByGroup[group] += reps;
+    }
+  });
+
+  parsedTotals.forEach(({ group, reps }) => {
+    if (groups.includes(group)) {
+      totalByGroup[group] += reps;
+    }
+  });
+
+  const formattedStats = {
+    stats: {
+      push: {
+        completed: completedByGroup.push,
+        total: totalByGroup.push,
+      },
+      pull: {
+        completed: completedByGroup.pull,
+        total: totalByGroup.pull,
+      },
+      legs: {
+        completed: completedByGroup.legs,
+        total: totalByGroup.legs,
+      },
+      core: {
+        completed: completedByGroup.core,
+        total: totalByGroup.core,
+      },
+    },
+    deckSize: deckSize,
+    workoutType: "original",
+    totalTime: finalTime,
+  };
+  return formattedStats;
 }

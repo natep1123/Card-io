@@ -13,7 +13,8 @@ export function WorkoutProvider({ children }) {
     remaining: null,
   });
   const [wState, setWState] = useState("form");
-  const [wStats, setWStats] = useState({});
+  const [wStats, setWStats] = useState({}); // Tracking active completed reps
+  const [wTotals, setWTotals] = useState({}); // Trackig totals to calculate percentage completion
   const [isDeckFull, setIsDeckFull] = useState(true);
   const [drawnCards, setDrawnCards] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
@@ -44,6 +45,7 @@ export function WorkoutProvider({ children }) {
     const storedDeck = loadFromStorage("deck", deck);
     const storedExercises = loadFromStorage("exercises", exercises);
     const storedWStats = loadFromStorage("wStats", {});
+    const storedWTotals = loadFromStorage("wTotals", {});
     const storedDrawnCards = loadFromStorage("drawnCards", []);
     const storedCurrentExercise = loadFromStorage("currentExercise", null);
     const storedClockStart = loadFromStorage("clockStart", null);
@@ -58,6 +60,7 @@ export function WorkoutProvider({ children }) {
     setDeck(storedDeck);
     setExercises(storedExercises);
     setWStats(storedWStats);
+    setWTotals(storedWTotals);
     setDrawnCards(storedDrawnCards);
     setCurrentExercise(storedCurrentExercise);
     setClockStart(storedClockStart);
@@ -82,6 +85,10 @@ export function WorkoutProvider({ children }) {
   useEffect(() => {
     saveToStorage("wStats", wStats);
   }, [wStats]);
+
+  useEffect(() => {
+    saveToStorage("wTotals", wTotals);
+  }, [wTotals]);
 
   useEffect(() => {
     saveToStorage("drawnCards", drawnCards);
@@ -142,6 +149,7 @@ export function WorkoutProvider({ children }) {
     });
     setDeckSize("full");
     setWStats({});
+    setWTotals({});
     setWState("form");
     setIsDeckFull(true);
     setDrawnCards([]);
@@ -167,6 +175,8 @@ export function WorkoutProvider({ children }) {
         setDeckSize,
         wStats,
         setWStats,
+        wTotals,
+        setWTotals,
         resetWorkout,
         isDeckFull,
         setIsDeckFull,

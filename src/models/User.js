@@ -31,7 +31,7 @@ const workoutStatsSchema = new mongoose.Schema(
       enum: ["original"],
       default: "original",
     },
-    totalTime: { type: Number, default: 0, min: 0 }, // Total time in seconds
+    totalTime: { type: String }, // Total time, formatted as "HH:MM:SS"
     createdAt: { type: Date, default: Date.now },
   },
   { _id: false }

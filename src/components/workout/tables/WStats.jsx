@@ -1,6 +1,7 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
+import { assignMedals, parseStats } from "@/lib/index";
 
 // Component to display a table of all exercises with name, suit, and reps completed
 export default function WStats() {
@@ -29,34 +30,7 @@ export default function WStats() {
         : null;
   }
 
-  console.log("wStats:", wStats);
-
-  // Parse wStats into an array of exercise objects
-  const exerciseList = Object.entries(wStats).map(([key, reps]) => {
-    const parts = key.split("-");
-    const group = parts.pop(); // Last part is group
-    const suit = parts.pop(); // Second-to-last part is suit
-    const name = parts.join("-"); // Everything else is the name
-    return {
-      name,
-      group,
-      suit,
-      reps: typeof reps === "string" ? parseInt(reps, 10) : reps,
-    };
-  });
-
-  // Define group order
-  const groupOrder = ["push", "pull", "legs", "core", "timed"];
-
-  // Sort exercises by group order and then by reps (descending)
-  exerciseList.sort((a, b) => {
-    const groupA = groupOrder.indexOf(a.group);
-    const groupB = groupOrder.indexOf(b.group);
-    if (groupA !== groupB) {
-      return groupA - groupB; // Sort by group order
-    }
-    return b.reps - a.reps; // Sort by reps (highest to lowest)
-  });
+  const exerciseList = parseStats(wStats);
 
   return (
     <div className="w-full max-w-lg bg-slate text-center flex flex-col items-center">

@@ -15,6 +15,8 @@ export default function WDisplay() {
     setWState,
     deckSize,
     setWStats,
+    wTotals,
+    setWTotals,
     isDeckFull,
     setIsDeckFull,
     drawnCards,
@@ -90,9 +92,14 @@ export default function WDisplay() {
         const tilt = Math.floor(Math.random() * 21) - 10;
 
         const exercise = getExerciseByCard(drawnCard, exercises, multiplier);
+        // KEY EXAMPLE: "Dips-hearts-push"
         const key = `${exercise.name}-${exercise.suit}-${exercise.group}`;
 
         setWStats((prev) => ({
+          ...prev,
+          [key]: (prev[key] || 0) + exercise.value,
+        }));
+        setWTotals((prev) => ({
           ...prev,
           [key]: (prev[key] || 0) + exercise.value,
         }));
@@ -128,6 +135,7 @@ export default function WDisplay() {
       [key]:
         (prev[key] || 0) - exercise.value < 0 ? 0 : prev[key] - exercise.value,
     }));
+
     setSkippedCounter((prev) => prev + 1);
 
     // Draw a new card
@@ -137,13 +145,27 @@ export default function WDisplay() {
   // Function to handle ending workout early
   const handleEnd = () => {
     if (deck.remaining > 0) {
+      // Confirm with user before tapping out
       const confirmTapOut = window.confirm(
         "No shame! Are you sure you want to tap out?"
       );
       if (!confirmTapOut) return;
+
+      //Simulate drawing all remaining cards to calculate totals.
+      // --> Batched to avoid multiple state updates
+      const newTotals = { ...wTotals };
+      deck.cards.forEach((card) => {
+        card.value = card.value.toLowerCase();
+        card.suit = card.suit.toLowerCase();
+        const exercise = getExerciseByCard(card, exercises, multiplier);
+        const key = `${exercise.name}-${exercise.suit}-${exercise.group}`;
+        newTotals[key] = (newTotals[key] || 0) + exercise.value;
+      });
+      setWTotals(newTotals);
       setTapOut(true);
       setSkippedCounter((prev) => prev + deck.remaining);
     }
+    // Calculate final time and set state to summary
     const elapsed = Math.floor((Date.now() - clockStart) / 1000);
     setFinalTime(formatClock(elapsed));
     setWState("summary");

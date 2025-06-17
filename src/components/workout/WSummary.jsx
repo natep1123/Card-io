@@ -1,10 +1,11 @@
 "use client";
 
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
+import { saveStats, formatStats } from "@/lib";
 import WStats from "./tables/WStats";
 
 export default function WSummary() {
-  const { resetWorkout, finalTime, skippedCounter, deckSize } =
+  const { resetWorkout, finalTime, skippedCounter, deckSize, wStats, wTotals } =
     useWorkoutContext();
 
   function handleReset() {
@@ -16,9 +17,12 @@ export default function WSummary() {
     resetWorkout();
   }
 
-  function handleSave() {
-    // Alert the user that save functionality is not implemented
-    alert("Save functionality is not implemented yet.");
+  async function handleSave() {
+    // alert("Save functionality is not implemented yet."); // PLACEHOLDER
+    const formattedStats = formatStats(wStats, wTotals, deckSize, finalTime);
+
+    const res = await saveStats(formattedStats);
+    console.log("Save response:", res);
   }
 
   return (
