@@ -4,6 +4,7 @@ import { useWorkoutContext } from "@/contexts/WorkoutContext";
 import { saveStats, formatStats } from "@/lib";
 import WStats from "./tables/WStats";
 import { useSession } from "next-auth/react";
+import BarChart from "./charts/BarChart";
 
 export default function WSummary() {
   const { data: session } = useSession();
@@ -42,6 +43,7 @@ export default function WSummary() {
     }
 
     const res = await saveStats(formattedStats);
+    console.log("Save Stats Response:", res.data.savedStats);
     if (res.status === 201) {
       alert("Stats saved successfully!");
       setIsSaved(true);
@@ -51,7 +53,7 @@ export default function WSummary() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-4">
+    <div className="w-full max-w-2x1 flex flex-col items-center gap-4">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-4">Workout Summary</h2>
         <table className="w-full max-w-xs text-left border-collapse text-white">
@@ -73,29 +75,20 @@ export default function WSummary() {
           </tbody>
         </table>
       </div>
+      <BarChart stats={formattedStats.stats} />
       <WStats />
-      {/* Displaying percentages for each category */}
-      <div className="w-full flex flex-col items-center text-white">
-        <h3 className="text-lg font-semibold mb-2">Completion Percentages</h3>
-        <ul className="list-disc pl-5">
-          <li>Push: {push.percentage}%</li>
-          <li>Pull: {pull.percentage}%</li>
-          <li>Legs: {legs.percentage}%</li>
-          <li>Core: {core.percentage}%</li>
-        </ul>
-      </div>
-      <div className="flex flex-row gap-4">
-        <button
-          onClick={handleReset}
-          className="px-4 py-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 transition"
-        >
-          Reset
-        </button>
+      <div className="flex flex-col gap-4">
         <button
           onClick={handleSave}
           className="px-4 py-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 transition"
         >
           Save Stats
+        </button>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 transition"
+        >
+          Reset
         </button>
       </div>
     </div>

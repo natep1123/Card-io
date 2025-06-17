@@ -173,17 +173,27 @@ export function formatStats(wStats, wTotals, deckSize, finalTime) {
     totalByGroup[group] = 0;
   });
 
+  // Calculate completed and total reps by group
   parsedStats.forEach(({ group, reps }) => {
     if (groups.includes(group)) {
       completedByGroup[group] += reps;
     }
   });
-
   parsedTotals.forEach(({ group, reps }) => {
     if (groups.includes(group)) {
       totalByGroup[group] += reps;
     }
   });
+
+  // Calculate overall completed and total reps
+  const overallCompleted = Object.values(completedByGroup).reduce(
+    (sum, count) => sum + count,
+    0
+  );
+  const overallTotal = Object.values(totalByGroup).reduce(
+    (sum, count) => sum + count,
+    0
+  );
 
   const formattedStats = {
     stats: {
@@ -213,6 +223,13 @@ export function formatStats(wStats, wTotals, deckSize, finalTime) {
         total: totalByGroup.core,
         percentage: parseFloat(
           ((completedByGroup.core / totalByGroup.core) * 100).toFixed(1)
+        ),
+      },
+      overall: {
+        completed: overallCompleted,
+        total: overallTotal,
+        percentage: parseFloat(
+          ((overallCompleted / overallTotal) * 100).toFixed(1)
         ),
       },
     },

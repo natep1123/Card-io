@@ -24,6 +24,11 @@ const workoutStatsSchema = new mongoose.Schema(
         total: { type: Number, default: 0, min: 0 },
         percentage: { type: Number, default: 0, min: 0, max: 100 },
       },
+      overall: {
+        completed: { type: Number, default: 0, min: 0 },
+        total: { type: Number, default: 0, min: 0 },
+        percentage: { type: Number, default: 0, min: 0, max: 100 },
+      },
     },
     deckSize: {
       type: String,
