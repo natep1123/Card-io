@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 
 export default async function Home() {
   const session = await auth();
-  console.log("Session:", session);
 
   const intro = [
     "Ready to take a gamble on an intense workout challenge?",
