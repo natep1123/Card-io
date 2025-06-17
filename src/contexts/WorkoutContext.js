@@ -23,6 +23,7 @@ export function WorkoutProvider({ children }) {
   const [multiplier, setMultiplier] = useState(1);
   const [skippedCounter, setSkippedCounter] = useState(0);
   const [tapOut, setTapOut] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // Utility to sync to sessionStorage
   const saveToStorage = (key, value) => {
@@ -56,6 +57,7 @@ export function WorkoutProvider({ children }) {
     const storedMultiplier = loadFromStorage("multiplier", 1);
     const storedSkippedCounter = loadFromStorage("skippedCounter", 0);
     const storedTapOut = loadFromStorage("tapOut", false);
+    const storedIsSaved = loadFromStorage("isSaved", false);
 
     setDeck(storedDeck);
     setExercises(storedExercises);
@@ -71,6 +73,7 @@ export function WorkoutProvider({ children }) {
     setMultiplier(storedMultiplier);
     setSkippedCounter(storedSkippedCounter);
     setTapOut(storedTapOut);
+    setIsSaved(storedIsSaved);
   }, []);
 
   // Sync each piece of state to sessionStorage
@@ -130,6 +133,10 @@ export function WorkoutProvider({ children }) {
     saveToStorage("tapOut", tapOut);
   }, [tapOut]);
 
+  useEffect(() => {
+    saveToStorage("isSaved", isSaved);
+  }, [isSaved]);
+
   // Utility to format clock (like 0:45:26)
   const formatClock = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
@@ -159,6 +166,7 @@ export function WorkoutProvider({ children }) {
     setMultiplier(1);
     setSkippedCounter(0);
     setTapOut(false);
+    setIsSaved(false);
     sessionStorage.clear();
   };
 
@@ -195,6 +203,8 @@ export function WorkoutProvider({ children }) {
         setSkippedCounter,
         tapOut,
         setTapOut,
+        isSaved,
+        setIsSaved,
       }}
     >
       {children}

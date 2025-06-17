@@ -5,8 +5,16 @@ import { saveStats, formatStats } from "@/lib";
 import WStats from "./tables/WStats";
 
 export default function WSummary() {
-  const { resetWorkout, finalTime, skippedCounter, deckSize, wStats, wTotals } =
-    useWorkoutContext();
+  const {
+    resetWorkout,
+    finalTime,
+    skippedCounter,
+    deckSize,
+    wStats,
+    wTotals,
+    isSaved,
+    setIsSaved,
+  } = useWorkoutContext();
 
   function handleReset() {
     // Check if the user really wants to reset
@@ -18,11 +26,20 @@ export default function WSummary() {
   }
 
   async function handleSave() {
-    // alert("Save functionality is not implemented yet."); // PLACEHOLDER
+    if (isSaved) {
+      alert("Stats have already been saved. You cannot save again.");
+      return;
+    }
+
     const formattedStats = formatStats(wStats, wTotals, deckSize, finalTime);
 
     const res = await saveStats(formattedStats);
-    console.log("Save response:", res);
+    if (res.status === 201) {
+      alert("Stats saved successfully!");
+      setIsSaved(true);
+    } else {
+      alert("Failed to save stats. Please try again.");
+    }
   }
 
   return (
