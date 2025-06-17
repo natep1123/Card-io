@@ -13,8 +13,8 @@ export function WorkoutProvider({ children }) {
     remaining: null,
   });
   const [wState, setWState] = useState("form");
-  const [wStats, setWStats] = useState({}); // Tracking active completed reps
-  const [wTotals, setWTotals] = useState({}); // Trackig totals to calculate percentage completion
+  const [wStats, setWStats] = useState({}); // Tracking active completed reps per exercises
+  const [wTotals, setWTotals] = useState({}); // Tracking broader stats, like percent completion by group
   const [isDeckFull, setIsDeckFull] = useState(true);
   const [drawnCards, setDrawnCards] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
