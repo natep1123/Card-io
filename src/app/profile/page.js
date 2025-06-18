@@ -1,9 +1,13 @@
 import { auth } from "@/auth";
 import Link from "next/link";
+import ProfileActions from "@/components/ProfileActions";
 
 export default async function ProfilePage() {
   // Auth check
   const session = await auth();
+  const email = session ? session.user.email : null;
+  const name = email ? email.split("@")[0] : null;
+
   if (!session) {
     return (
       <div className="min-h-screen bg-slate text-white flex flex-col items-center px-4">
@@ -20,6 +24,13 @@ export default async function ProfilePage() {
   return (
     <div className="flex flex-col gap-4 w-full items-center max-w-2xl">
       <h2>Profile Page</h2>
+      <p className="text-lg text-gray mb-6">
+        Welcome, <span className="font-bold">{name}</span>!
+      </p>
+      <p className="text-lg text-gray mb-6">
+        Your registered email is: <span className="font-bold">{email}</span>
+      </p>
+      <Link href="/profile/analytics">Check Analytics</Link>
     </div>
   );
 }

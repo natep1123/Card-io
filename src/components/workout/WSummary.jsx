@@ -14,15 +14,20 @@ export default function WSummary() {
     finalTime,
     skippedCounter,
     deckSize,
+    multiplier,
     wStats,
     wTotals,
     isSaved,
     setIsSaved,
   } = useWorkoutContext();
 
-  const formattedStats = formatStats(wStats, wTotals, deckSize, finalTime);
-
-  const { push, pull, legs, core } = formattedStats.stats;
+  const formattedStats = formatStats(
+    wStats,
+    wTotals,
+    deckSize,
+    multiplier,
+    finalTime
+  );
 
   function handleReset() {
     // Check if the user really wants to reset

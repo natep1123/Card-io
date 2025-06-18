@@ -40,6 +40,11 @@ const workoutStatsSchema = new mongoose.Schema(
       enum: ["original"],
       default: "original",
     },
+    multiplier: {
+      type: Number,
+      enum: [1, 2, 3],
+      default: 1,
+    },
     totalTime: { type: String }, // Total time, formatted as "HH:MM:SS"
     createdAt: { type: Date, default: Date.now },
   },
@@ -63,6 +68,11 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
     },
     workoutStats: [workoutStatsSchema],
+    colorPreference: {
+      type: String,
+      enum: ["red", "blue", "yellow", "green", "white"],
+      default: "red",
+    },
   },
   {
     timestamps: true,

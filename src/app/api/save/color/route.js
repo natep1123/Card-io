@@ -3,9 +3,8 @@ import { getUserModel } from "@/models/User";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-// This route handles saving workout stats for logged-in users
 export async function POST(req) {
-  // Auth check; only logged-in users can save stats.
+  // Auth check; only logged-in users can save stats and view analytics.
   const session = await auth();
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -13,9 +12,9 @@ export async function POST(req) {
   const userId = session.user.id;
 
   try {
+    const { searchParams } = new URL(req.url);
+    const color = searchParams.get("color");
     await connectDB();
-
-    const formattedStats = await req.json();
 
     const User = getUserModel();
 
@@ -23,19 +22,18 @@ export async function POST(req) {
     if (!user) {
       return NextResponse.json({ message: "User not found." }, { status: 404 });
     }
-
-    // Push new stats and save
-    user.workoutStats.push(formattedStats);
+    user.colorPreference = color;
     await user.save();
 
     return NextResponse.json(
-      { message: "Stats saved.", savedStats: formattedStats },
+      { message: "Color preference updates.", newColor: color },
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json(
-      { message: "An error occurred while saving workout stats." },
-      { status: 500 }
-    );
+    console.error("Error fetching workouts:", error);
+    return new Response(JSON.stringify({ error: "Failed to fetch workouts" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

@@ -160,7 +160,7 @@ export function parseStats(stats) {
   return exerciseList;
 }
 
-export function formatStats(wStats, wTotals, deckSize, finalTime) {
+export function formatStats(wStats, wTotals, deckSize, multiplier, finalTime) {
   const parsedStats = parseStats(wStats);
   const parsedTotals = parseStats(wTotals);
   const groups = ["push", "pull", "legs", "core"]; //exclude timed
@@ -235,7 +235,43 @@ export function formatStats(wStats, wTotals, deckSize, finalTime) {
     },
     deckSize: deckSize,
     workoutType: "original",
+    multiplier: multiplier,
     totalTime: finalTime,
   };
   return formattedStats;
+}
+
+// Function to get workout stats for a user
+export async function getWorkoutStats(deckSize, multiplier, workoutType) {
+  try {
+    const response = await axios.get("/api/get/stats", {
+      params: { deckSize, multiplier, workoutType },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching workout stats:", error);
+    throw error;
+  }
+}
+
+export async function getColorPreference() {
+  try {
+    const response = await axios.get("/api/get/color");
+    return response.data.colorPreference;
+  } catch (error) {
+    console.error("Error fetching color preference:", error);
+    throw error;
+  }
+}
+
+export async function saveColorPreference(color) {
+  try {
+    const response = await axios.post("/api/save/color", null, {
+      params: { color },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error saving color preference:", error);
+    throw error;
+  }
 }
