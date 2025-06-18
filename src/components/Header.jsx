@@ -81,7 +81,13 @@ export default function Header({ isSession: initialSession }) {
               key={page.name}
               href={page.path}
               className={`text-md font-semibold ${
-                pathname === page.path ? "text-red" : "text-white"
+                page.name === "Profile"
+                  ? pathname.startsWith("/profile")
+                    ? "text-red"
+                    : "text-white"
+                  : pathname === page.path
+                  ? "text-red"
+                  : "text-white"
               }`}
             >
               {page.name}
@@ -117,7 +123,13 @@ export default function Header({ isSession: initialSession }) {
                 href={page.path}
                 onClick={() => setIsOpen(false)}
                 className={`text-md font-semibold ${
-                  pathname === page.path ? "text-red" : "text-white"
+                  page.name === "Profile"
+                    ? pathname.startsWith("/profile")
+                      ? "text-red"
+                      : "text-white"
+                    : pathname === page.path
+                    ? "text-red"
+                    : "text-white"
                 }`}
               >
                 {page.name}
