@@ -8,7 +8,7 @@ import { useWorkoutContext } from "@/contexts/WorkoutContext";
 
 export default function Header({ isSession: initialSession }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSession, setIsSession] = useState(initialSession); // Initialize with server value
+  const [isSession, setIsSession] = useState(initialSession); // Initialize with server value (for login/logout)
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const { resetWorkout } = useWorkoutContext();
