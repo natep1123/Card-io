@@ -30,7 +30,12 @@ export default async function ProfilePage() {
       <p className="text-lg text-gray mb-6">
         Your registered email is: <span className="font-bold">{email}</span>
       </p>
-      <Link href="/profile/analytics">Check Analytics</Link>
+      <Link
+        href="/profile/analytics"
+        className="px-4 py-2 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition"
+      >
+        Check Analytics
+      </Link>
     </div>
   );
 }
