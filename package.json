@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "rm -f babel.config.json && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "cp babel.config.json.bak babel.config.json && jest"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
