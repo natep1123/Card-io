@@ -3,7 +3,7 @@
 import { useWorkoutContext } from "@/contexts/WorkoutContext";
 import { rerollSuits } from "@/lib/index";
 
-export default function WorkoutForm() {
+export default function WForm() {
   const { setWState, setDeckSize, exercises, setExercises, setMultiplier } =
     useWorkoutContext();
 
