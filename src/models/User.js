@@ -73,6 +73,14 @@ const userSchema = new mongoose.Schema(
       enum: ["red", "blue", "yellow", "green", "white"],
       default: "red",
     },
+    apiCalls: {
+      type: Number,
+      default: 0,
+    },
+    lastApiCall: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,

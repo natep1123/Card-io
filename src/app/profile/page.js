@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
-import Link from "next/link";
-import ProfileActions from "@/components/ProfileActions";
+import Profile from "@/components/Profile";
 
 export default async function ProfilePage() {
   // Auth check
@@ -21,21 +20,5 @@ export default async function ProfilePage() {
     );
   }
 
-  return (
-    <div className="flex flex-col gap-4 w-full items-center max-w-2xl">
-      <h2>Profile Page</h2>
-      <p className="text-lg text-gray mb-6">
-        Welcome, <span className="font-bold">{name}</span>!
-      </p>
-      <p className="text-lg text-gray mb-6">
-        Your registered email is: <span className="font-bold">{email}</span>
-      </p>
-      <Link
-        href="/profile/analytics"
-        className="px-4 py-2 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition"
-      >
-        Check Analytics
-      </Link>
-    </div>
-  );
+  return <Profile name={name} email={email} />;
 }

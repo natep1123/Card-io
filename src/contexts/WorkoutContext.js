@@ -2,7 +2,44 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 
-const WorkoutContext = createContext();
+const WorkoutContext = createContext({
+  deck: null,
+  setDeck: () => {},
+  exercises: null,
+  setExercises: () => {},
+  wState: "form",
+  setWState: () => {},
+  deckSize: "full",
+  setDeckSize: () => {},
+  wStats: {},
+  setWStats: () => {},
+  wTotals: {},
+  setWTotals: () => {},
+  resetWorkout: () => {},
+  isDeckFull: true,
+  setIsDeckFull: () => {},
+  drawnCards: [],
+  setDrawnCards: () => {},
+  currentExercise: null,
+  setCurrentExercise: () => {},
+  clockStart: null,
+  setClockStart: () => {},
+  finalTime: null,
+  setFinalTime: () => {},
+  formatClock: (seconds) => "",
+  multiplier: 1,
+  setMultiplier: () => {},
+  skippedCounter: 0,
+  setSkippedCounter: () => {},
+  tapOut: false,
+  setTapOut: () => {},
+  isSaved: false,
+  setIsSaved: () => {},
+  insights: null,
+  setInsights: () => {},
+  insightsData: null,
+  setInsightsData: () => {},
+});
 
 export function WorkoutProvider({ children }) {
   const [exercises, setExercises] = useState(null);
@@ -12,18 +49,20 @@ export function WorkoutProvider({ children }) {
     cards: [],
     remaining: null,
   });
-  const [wState, setWState] = useState("form");
+  const [wState, setWState] = useState("form"); // Top-level state for Workout comp (form --> display --> summary)
   const [wStats, setWStats] = useState({}); // Tracking active completed reps per exercises
   const [wTotals, setWTotals] = useState({}); // Tracking broader stats, like percent completion by group
-  const [isDeckFull, setIsDeckFull] = useState(true);
-  const [drawnCards, setDrawnCards] = useState([]);
-  const [currentExercise, setCurrentExercise] = useState(null);
-  const [clockStart, setClockStart] = useState(null);
-  const [finalTime, setFinalTime] = useState(null);
-  const [multiplier, setMultiplier] = useState(1);
-  const [skippedCounter, setSkippedCounter] = useState(0);
-  const [tapOut, setTapOut] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isDeckFull, setIsDeckFull] = useState(true); // Track if deck is full or not
+  const [drawnCards, setDrawnCards] = useState([]); // Array of drawn cards from the deck
+  const [currentExercise, setCurrentExercise] = useState(null); // Current exercise the user has drawn
+  const [clockStart, setClockStart] = useState(null); // Timestamp for dynamic time tracking
+  const [finalTime, setFinalTime] = useState(null); // Final time of the completed workout
+  const [multiplier, setMultiplier] = useState(1); // Tracking multiplier of the workout
+  const [skippedCounter, setSkippedCounter] = useState(0); // Tracking count of skipped cards
+  const [tapOut, setTapOut] = useState(false); // Tracking if the user has tapped out of the workout
+  const [isSaved, setIsSaved] = useState(false); // Tracking if the current workout is saved
+  const [insights, setInsights] = useState(null); // AI-generated insights
+  const [insightsData, setInsightsData] = useState(null); // Data used to generate insights
 
   // Utility to sync to sessionStorage
   const saveToStorage = (key, value) => {
@@ -58,6 +97,8 @@ export function WorkoutProvider({ children }) {
     const storedSkippedCounter = loadFromStorage("skippedCounter", 0);
     const storedTapOut = loadFromStorage("tapOut", false);
     const storedIsSaved = loadFromStorage("isSaved", false);
+    const storedInsights = loadFromStorage("insights", null);
+    const storedInsightsData = loadFromStorage("insightsData", null);
 
     setDeck(storedDeck);
     setExercises(storedExercises);
@@ -74,6 +115,8 @@ export function WorkoutProvider({ children }) {
     setSkippedCounter(storedSkippedCounter);
     setTapOut(storedTapOut);
     setIsSaved(storedIsSaved);
+    setInsights(storedInsights);
+    setInsightsData(storedInsightsData);
   }, []);
 
   // Sync each piece of state to sessionStorage
@@ -137,6 +180,14 @@ export function WorkoutProvider({ children }) {
     saveToStorage("isSaved", isSaved);
   }, [isSaved]);
 
+  useEffect(() => {
+    saveToStorage("insights", insights);
+  }, [insights]);
+
+  useEffect(() => {
+    saveToStorage("insightsData", insightsData);
+  }, [insightsData]);
+
   // Utility to format clock (like 0:45:26)
   const formatClock = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
@@ -167,6 +218,8 @@ export function WorkoutProvider({ children }) {
     setSkippedCounter(0);
     setTapOut(false);
     setIsSaved(false);
+    setInsights(null);
+    setInsightsData(null);
     sessionStorage.clear();
   };
 
@@ -205,6 +258,10 @@ export function WorkoutProvider({ children }) {
         setTapOut,
         isSaved,
         setIsSaved,
+        insights,
+        setInsights,
+        insightsData,
+        setInsightsData,
       }}
     >
       {children}

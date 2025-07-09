@@ -48,7 +48,6 @@ export async function GET(req) {
         w.multiplier === multiplier &&
         w.workoutType === workoutType
     );
-    console.log("Workouts:", user.workoutStats);
 
     return NextResponse.json(
       { message: "User stats returned", workouts: userWorkouts },

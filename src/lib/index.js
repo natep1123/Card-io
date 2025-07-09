@@ -118,6 +118,17 @@ export async function registerUser(email, password) {
   }
 }
 
+// Function to delete a user
+export async function deleteUser() {
+  try {
+    const response = await axios.delete("/api/delete/user");
+    return { status: "success", data: response.data };
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return { status: "failed", message: "Error deleting user." };
+  }
+}
+
 // Function to save workout stats
 export async function saveStats(formattedStats) {
   try {
@@ -273,5 +284,22 @@ export async function saveColorPreference(color) {
   } catch (error) {
     console.error("Error saving color preference:", error);
     throw error;
+  }
+}
+
+export async function getInsights() {
+  try {
+    const response = await axios.get("/api/ai");
+    return { status: "success", data: response.data };
+  } catch (error) {
+    console.error("Error fetching insights:", error);
+    return {
+      status: "failed",
+      data: {
+        message: error.response.data.message,
+        insights: null,
+        userData: null,
+      },
+    };
   }
 }
