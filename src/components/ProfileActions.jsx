@@ -183,7 +183,7 @@ export default function ProfileActions() {
               <p>
                 <strong>Cooldown:</strong> {insights.cooldown}
               </p>
-              <p className="text-red-500">
+              <p>
                 <strong>Safety Note:</strong> {insights.safetyNote}
               </p>
             </div>
