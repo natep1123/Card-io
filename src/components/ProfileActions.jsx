@@ -87,13 +87,13 @@ export default function ProfileActions() {
           }`}
         >
           <h4 className="text-xl font-semibold">AI Insights</h4>
-          <p className="text-gray-600 text-center">
+          <p className="text-white text-center">
             Click the button below to generate AI insights based on your saved
             workout data. This feature analyzes your performance across the most
             recent saved workouts (up to 5) and generates 2 personalized
             workouts you can do to help improve your performance.
           </p>
-          <span className="text-gray-500 text-sm">Limit 3 per day.</span>
+          <span className="text-gray-500 text-sm">Limit 2 per day.</span>
           <button
             onClick={handleGetInsights}
             disabled={loading || deleting}
