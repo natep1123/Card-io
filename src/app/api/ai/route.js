@@ -23,12 +23,14 @@ export async function GET() {
     return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
   }
   const userId = session.user.id;
-  // Find user
-  await connectDB();
-  const User = getUserModel();
-  const user = await User.findById(userId);
+  let user; // initialize outside try block to access in catch (rollback apiCalls)
 
   try {
+    // Find user
+    await connectDB();
+    const User = getUserModel();
+    user = await User.findById(userId);
+
     // If user not found, return 404
     if (!user) {
       return NextResponse.json({ message: "User not found." }, { status: 404 });
@@ -42,9 +44,9 @@ export async function GET() {
     }
 
     // TEMP: NO API LIMIT FOR TESTING ACCOUNT
-    // if (user.email === "testai@example.com") {
-    //   user.apiCalls = 0;
-    // }
+    if (user.email === "testai@example.com") {
+      user.apiCalls = 0;
+    }
 
     // // API Limits: user can send two calls per day
     if (user.apiCalls >= 2 && isSameDay(user.lastApiCall, new Date())) {
@@ -190,14 +192,13 @@ export async function GET() {
     );
   } catch (error) {
     console.error("API Route Error:", error);
-    let message;
+    let message = "Failed to generate insights.";
+
     if (error.message.includes("SyntaxError")) {
       message = "Bad response from AI. Please try again.";
       user.apiCalls -= 1; // Rollback API call count for bad responses
       await user.save();
       console.log("API call count rolled back:", user.apiCalls);
-    } else {
-      message = "Failed to generate insights.";
     }
     return NextResponse.json({ message: message }, { status: 500 });
   }
