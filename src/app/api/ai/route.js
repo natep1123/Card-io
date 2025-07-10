@@ -62,7 +62,6 @@ export async function GET() {
       user.apiCalls += 1;
       user.lastApiCall = Date.now();
       await user.save();
-      console.log("API call count updated:", user.apiCalls);
     }
 
     // Retrieve the most recent workout stats (up to 5)
@@ -198,7 +197,6 @@ export async function GET() {
       message = "Bad response from AI. Please try again.";
       user.apiCalls -= 1; // Rollback API call count for bad responses
       await user.save();
-      console.log("API call count rolled back:", user.apiCalls);
     }
     return NextResponse.json({ message: message }, { status: 500 });
   }

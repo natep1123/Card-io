@@ -48,7 +48,7 @@ export default function WSummary() {
     }
 
     const res = await saveStats(formattedStats);
-    console.log("Save Stats Response:", res.data.savedStats);
+
     if (res.status === 201) {
       alert("Stats saved successfully!");
       setIsSaved(true);

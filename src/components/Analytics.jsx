@@ -9,6 +9,7 @@ import {
   getColorPreference,
   saveColorPreference,
 } from "@/lib/index";
+import { useRouter } from "next/navigation";
 
 export default function Analytics() {
   const { data: session } = useSession();
@@ -26,6 +27,7 @@ export default function Analytics() {
   };
   const [selectedColor, setSelectedColor] = useState("red");
   const [hasLoadedColorPref, setHasLoadedColorPref] = useState(false);
+  const router = useRouter();
 
   // Load user color preference on mount
   useEffect(() => {
@@ -81,6 +83,12 @@ export default function Analytics() {
 
   return (
     <div className="w-full max-w-2xl mx-auto px-4 flex flex-col gap-6">
+      <button
+        onClick={() => router.back()}
+        className="px-4 py-2 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition"
+      >
+        Back to Profile
+      </button>
       <div className="flex flex-col gap-4">
         <div>
           <label className="block text-white mb-1">Deck Size:</label>
