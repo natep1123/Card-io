@@ -44,9 +44,9 @@ export async function GET() {
     }
 
     // TEMP: NO API LIMIT FOR TESTING ACCOUNT
-    if (user.email === "testai@example.com") {
-      user.apiCalls = 0;
-    }
+    // if (user.email === "testai@example.com") {
+    //   user.apiCalls = 0;
+    // }
 
     // // API Limits: user can send two calls per day
     if (user.apiCalls >= 2 && isSameDay(user.lastApiCall, new Date())) {
